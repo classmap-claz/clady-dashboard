@@ -811,7 +811,7 @@ function uncheckPerson(id){
 
 // --- Google Sheets Sync ---
 // ★★★ 배포 후 여기에 Apps Script URL을 붙여넣으세요 ★★★
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby47CwPlG5KUUvxckx_4LVHIy6xoGbkiNi6osC3SdhH79ksxv0RVOGxGt3_wCUWmIL7Tw/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnGFhuYQUvV_Gf-PnXFORn5Lbj1OMlzgUsE6vrBpqLLcQLZRk5dHtTIO3lzOLr-UQ1Mw/exec';
 var SYNC_OK = false;
 
 function setSyncStatus(st, msg) {
@@ -1178,6 +1178,13 @@ renderOrders();
 var DR_CACHE = {};
 var DR_CURRENT_DATE = null;
 
+function normDate(d) {
+  if (!d) return '';
+  // Handle Google Sheets date format "Tue Aug 04 2026..." → "2026-08-04"
+  try { var dt = new Date(d); if (!isNaN(dt)) return dt.toISOString().slice(0,10); } catch(e) {}
+  return String(d).slice(0,10);
+}
+
 function loadDailyReport(date) {
   if (!SCRIPT_URL) {
     // Try local cache
@@ -1188,6 +1195,7 @@ function loadDailyReport(date) {
   var url = SCRIPT_URL + '?action=getDailyReport' + (date ? '&date=' + date : '');
   fetch(url).then(function(r) { return r.json(); }).then(function(data) {
     if (data && data.date) {
+      data.date = normDate(data.date);
       DR_CACHE[data.date] = data;
       DR_CURRENT_DATE = data.date;
       localStorage.setItem('clady_daily_' + data.date, JSON.stringify(data));
