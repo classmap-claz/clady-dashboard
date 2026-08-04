@@ -202,6 +202,41 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .plan-stats span{color:var(--dim);}
 .plan-stats .ct{font-weight:700;}
 
+/* Daily Report */
+.dr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.dr-header h3{font-size:1rem;font-weight:700;}
+.dr-date-nav{display:flex;align-items:center;gap:8px;}
+.dr-date-nav button{background:none;border:1px solid var(--border);color:var(--dim);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem;}
+.dr-date-nav button:hover{border-color:var(--accent);color:var(--text);}
+.dr-date{font-size:.85rem;font-weight:600;min-width:100px;text-align:center;}
+.dr-status{font-size:.7rem;padding:3px 10px;border-radius:10px;background:rgba(81,207,102,.15);color:var(--green);}
+.dr-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.dr-sum-card{background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--border);text-align:center;}
+.dr-sum-card .dr-bu-label{font-size:.75rem;font-weight:600;margin-bottom:8px;}
+.dr-sum-card .dr-nums{display:flex;justify-content:center;gap:16px;margin-bottom:6px;}
+.dr-sum-card .dr-n{font-size:1.4rem;font-weight:700;}
+.dr-sum-card .dr-l{font-size:.6rem;color:var(--dim);}
+.dr-bu-section{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);margin-bottom:16px;}
+.dr-bu-section h4{font-size:.9rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.dr-bu-section h4 .bu-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dr-bu-section h4 .bu-dot.home{background:#4f8cff;}.dr-bu-section h4 .bu-dot.stat{background:#00d4aa;}.dr-bu-section h4 .bu-dot.map{background:#ffa94d;}
+.dr-findings{list-style:none;padding:0;margin:0 0 12px;}
+.dr-findings li{font-size:.78rem;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);padding-left:14px;position:relative;}
+.dr-findings li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--dim);}
+.dr-issues{margin:8px 0 12px;}
+.dr-issue{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:4px 0;}
+.dr-members{margin:8px 0 12px;}
+.dr-member-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dr-member-row .m-status{font-size:.65rem;padding:1px 6px;border-radius:4px;}
+.dr-member-row .m-status.done{background:rgba(81,207,102,.15);color:var(--green);}
+.dr-member-row .m-status.progress{background:rgba(255,169,77,.15);color:var(--orange);}
+.dr-comment-box{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.dr-comment-box label{font-size:.72rem;color:var(--dim);display:block;margin-bottom:4px;}
+.dr-comment-box textarea{width:100%;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:10px;font-size:.8rem;resize:vertical;min-height:50px;}
+.dr-comment-box .dr-btn-row{display:flex;gap:8px;margin-top:8px;}
+.dr-existing-comment{background:rgba(79,140,255,.06);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:.78rem;line-height:1.6;}
+.dr-empty{text-align:center;padding:60px 20px;color:var(--dim);font-size:.85rem;}
+
 @media(max-width:640px){
   .container{padding:12px;}.bu-grid,.member-grid,.review-grid{grid-template-columns:1fr;}
   .form-row{flex-direction:column;}.summary-bar{grid-template-columns:repeat(2,1fr);}
@@ -274,6 +309,7 @@ function checkAuth(){
     <button class="tab" data-tab="report">종합 리포트<span class="ko">Report</span></button>
     <button class="tab" data-tab="plans">계획 검토<span class="ko">Plan Review</span></button>
     <button class="tab" data-tab="orders">업무 지시<span class="ko">Work Orders</span></button>
+    <button class="tab" data-tab="daily">일일 보고<span class="ko">Daily Report</span></button>
   </div>
 
   <!-- ===== OVERVIEW ===== -->
@@ -682,6 +718,22 @@ function checkAuth(){
       </div>
     </div>
     <div id="orderList"></div>
+  </div>
+
+  <!-- ===== DAILY REPORT ===== -->
+  <div class="tab-panel" id="tab-daily">
+    <div class="dr-header">
+      <h3>일일 보고 Daily Report</h3>
+      <div class="dr-date-nav">
+        <button onclick="navReport(-1)">&larr; 이전</button>
+        <span class="dr-date" id="drDate">--</span>
+        <button onclick="navReport(1)">다음 &rarr;</button>
+      </div>
+      <span class="dr-status" id="drStatus">--</span>
+    </div>
+    <div id="drContent">
+      <div class="dr-empty">아직 일일 보고가 없습니다.<br>야간 자동 운영이 시작되면 매일 새벽 보고서가 생성됩니다.<br><br>No daily reports yet. Reports are generated nightly at 1:00 AM.</div>
+    </div>
   </div>
 
 </div>
@@ -1121,6 +1173,163 @@ renderPlans();
 })();
 
 renderOrders();
+
+// --- Daily Report ---
+var DR_CACHE = {};
+var DR_CURRENT_DATE = null;
+
+function loadDailyReport(date) {
+  if (!SCRIPT_URL) {
+    // Try local cache
+    var local = localStorage.getItem('clady_daily_' + (date || 'latest'));
+    if (local) { renderDailyReport(JSON.parse(local)); return; }
+    return;
+  }
+  var url = SCRIPT_URL + '?action=getDailyReport' + (date ? '&date=' + date : '');
+  fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+    if (data && data.date) {
+      DR_CACHE[data.date] = data;
+      DR_CURRENT_DATE = data.date;
+      localStorage.setItem('clady_daily_' + data.date, JSON.stringify(data));
+      renderDailyReport(data);
+    }
+  }).catch(function() {
+    // Fallback to local
+    var local = localStorage.getItem('clady_daily_latest');
+    if (local) renderDailyReport(JSON.parse(local));
+  });
+}
+
+function navReport(dir) {
+  if (!DR_CURRENT_DATE) return;
+  var d = new Date(DR_CURRENT_DATE);
+  d.setDate(d.getDate() + dir);
+  var ds = d.toISOString().slice(0, 10);
+  loadDailyReport(ds);
+}
+
+function renderDailyReport(rpt) {
+  if (!rpt || !rpt.date) {
+    document.getElementById('drContent').innerHTML = '<div class="dr-empty">해당 날짜의 보고가 없습니다.<br>No report for this date.</div>';
+    return;
+  }
+  DR_CURRENT_DATE = rpt.date;
+  document.getElementById('drDate').textContent = rpt.date;
+  document.getElementById('drStatus').textContent = rpt.generatedAt ? '생성됨 Generated' : '--';
+
+  var bus = [
+    { key: 'home', label: 'HOME 사업부', data: rpt.home, dot: 'home' },
+    { key: 'stat', label: 'STAT 사업부', data: rpt.stat, dot: 'stat' },
+    { key: 'map',  label: 'MAP 사업부',  data: rpt.map,  dot: 'map' }
+  ];
+
+  var html = '';
+  // Summary cards
+  html += '<div class="dr-summary">';
+  for (var s = 0; s < bus.length; s++) {
+    var bd = bus[s].data || {};
+    html += '<div class="dr-sum-card"><div class="dr-bu-label">' + bus[s].label + '</div>';
+    html += '<div class="dr-nums"><div><div class="dr-n accent">' + (bd.filesChecked || 0) + '</div><div class="dr-l">파일 점검</div></div>';
+    html += '<div><div class="dr-n ' + ((bd.issuesFound || 0) > 0 ? 'warn' : 'green') + '">' + (bd.issuesFound || 0) + '</div><div class="dr-l">이슈</div></div></div>';
+    html += '<div style="font-size:.72rem;color:var(--dim);margin-top:4px;">' + esc(bd.summary || '데이터 없음') + '</div></div>';
+  }
+  html += '</div>';
+
+  // Per-BU sections
+  for (var b = 0; b < bus.length; b++) {
+    var bu = bus[b];
+    var d = bu.data || {};
+    var comments = (rpt.ceoComments || {})[bu.key];
+
+    html += '<div class="dr-bu-section">';
+    html += '<h4><span class="bu-dot ' + bu.dot + '"></span>' + bu.label + '</h4>';
+
+    // Findings
+    var findings = d.findings || [];
+    if (findings.length) {
+      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">주요 발견 Findings</div><ul class="dr-findings">';
+      for (var f = 0; f < findings.length; f++) html += '<li>' + esc(findings[f]) + '</li>';
+      html += '</ul>';
+    }
+
+    // Issues
+    var issues = d.issues || [];
+    if (issues.length) {
+      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">이슈 Issues</div><div class="dr-issues">';
+      for (var ii = 0; ii < issues.length; ii++) {
+        var sev = (issues[ii].severity || 'low').charAt(0).toUpperCase();
+        html += '<div class="dr-issue"><span class="sev ' + sev + '">' + sev + '</span>' + esc(issues[ii].desc || '') + '</div>';
+      }
+      html += '</div>';
+    }
+
+    // Member work
+    var members = d.memberWork || [];
+    if (members.length) {
+      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">팀원 작업 Member Work</div><div class="dr-members">';
+      for (var m = 0; m < members.length; m++) {
+        var mw = members[m];
+        html += '<div class="dr-member-row"><strong>' + esc(mw.name || '') + '</strong>';
+        html += '<span>' + esc(mw.task || '') + '</span>';
+        html += '<span class="m-status ' + (mw.status || 'progress') + '">' + (mw.status === 'done' ? '완료' : '진행중') + '</span></div>';
+      }
+      html += '</div>';
+    }
+
+    // Existing CEO comment
+    if (comments && comments.text) {
+      html += '<div class="dr-existing-comment"><strong>대표 코멘트:</strong> ' + esc(comments.text) + '<br><span style="font-size:.65rem;color:var(--dim);">' + (comments.date || '') + '</span></div>';
+    }
+
+    // Comment box
+    html += '<div class="dr-comment-box">';
+    html += '<label>대표 코멘트 CEO Comment</label>';
+    html += '<textarea id="drComment_' + bu.key + '" placeholder="이 사업부에 대한 의견이나 추가 지시...">' + (comments && comments.text ? esc(comments.text) : '') + '</textarea>';
+    html += '<div class="dr-btn-row">';
+    html += '<button class="btn btn-primary btn-sm" onclick="saveDrComment(\'' + bu.key + '\',false)">저장 Save</button>';
+    html += '<button class="btn btn-sm" style="background:var(--orange);color:#fff;" onclick="saveDrComment(\'' + bu.key + '\',true)">업무지시로 전환 Convert to Order</button>';
+    html += '</div></div>';
+
+    html += '</div>';
+  }
+
+  document.getElementById('drContent').innerHTML = html;
+}
+
+function saveDrComment(bu, convertToOrder) {
+  var text = document.getElementById('drComment_' + bu).value.trim();
+  if (!text) { alert('코멘트를 입력하세요.'); return; }
+  if (convertToOrder && !confirm('이 코멘트를 업무지시로 생성하시겠습니까?\nConvert this comment to a work order?')) return;
+
+  // Save locally
+  var key = 'clady_daily_' + DR_CURRENT_DATE;
+  var rpt = JSON.parse(localStorage.getItem(key) || '{}');
+  rpt.ceoComments = rpt.ceoComments || {};
+  rpt.ceoComments[bu] = { text: text, date: new Date().toLocaleString('ko-KR') };
+  localStorage.setItem(key, JSON.stringify(rpt));
+
+  // If converting to order, add locally too
+  if (convertToOrder) {
+    var buHeads = { home: ['seola'], stat: ['subin'], map: ['haeun'] };
+    var order = {
+      id: Date.now(), assign: buHeads[bu] || [bu], prio: 'urgent',
+      title: '[대표 지시] ' + bu.toUpperCase() + ' — ' + DR_CURRENT_DATE,
+      detail: text, status: 'pending', created: new Date().toISOString()
+    };
+    var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
+    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'urgent',
+             title: order.title, detail: text, status: 'pending', created: order.created, updatedBy: '대표' });
+  }
+
+  // Sync to Google Sheets
+  gsPost({ action: 'addReportComment', date: DR_CURRENT_DATE, bu: bu, text: text, convertToOrder: convertToOrder });
+
+  renderDailyReport(rpt);
+  if (convertToOrder) alert('업무지시가 생성되었습니다! Work order created.');
+}
+
+loadDailyReport();
+
 initSync();
 </script>
 </body>
