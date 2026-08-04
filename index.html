@@ -284,10 +284,81 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .order-track .ot-assign{font-size:.65rem;color:var(--dim);}
 .order-track .ot-time{font-size:.6rem;color:var(--dim);flex-shrink:0;}
 
+/* Calendar */
+.cal-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);margin-bottom:16px;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.cal-header h3{font-size:1rem;font-weight:700;}
+.cal-nav{display:flex;align-items:center;gap:8px;}
+.cal-nav button{background:none;border:1px solid var(--border);color:var(--dim);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:.8rem;}
+.cal-nav button:hover{border-color:var(--accent);color:var(--text);}
+.cal-month{font-size:.95rem;font-weight:600;min-width:140px;text-align:center;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-dow{text-align:center;font-size:.65rem;color:var(--dim);padding:8px 0;font-weight:600;}
+.cal-dow:first-child{color:var(--warn);}
+.cal-dow:last-child{color:var(--accent);}
+.cal-day{min-height:48px;padding:4px;border-radius:6px;cursor:pointer;position:relative;transition:background .15s;}
+.cal-day:hover{background:var(--card-hover);}
+.cal-day.empty{cursor:default;}.cal-day.empty:hover{background:none;}
+.cal-day .d-num{font-size:.75rem;font-weight:500;}
+.cal-day.today{background:rgba(79,140,255,.12);border:1px solid var(--accent);}
+.cal-day.today .d-num{color:var(--accent);font-weight:700;}
+.cal-day.sun .d-num{color:var(--warn);}
+.cal-day.sat .d-num{color:var(--accent);}
+.cal-day.selected{background:var(--card-hover);border:1px solid var(--accent2);}
+.cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:2px;}
+.cal-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.cal-dot.vacation{background:var(--orange);}.cal-dot.holiday{background:var(--warn);}.cal-dot.event{background:var(--accent);}.cal-dot.deadline{background:var(--green);}
+.cal-events{background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--border);margin-bottom:16px;}
+.cal-events h4{font-size:.85rem;font-weight:700;margin-bottom:10px;}
+.cal-ev-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;}
+.cal-ev-item:last-child{border-bottom:none;}
+.cal-ev-type{font-size:.6rem;padding:2px 8px;border-radius:4px;font-weight:600;flex-shrink:0;min-width:40px;text-align:center;}
+.cal-ev-type.vacation{background:rgba(255,169,77,.15);color:var(--orange);}
+.cal-ev-type.holiday{background:rgba(255,107,107,.15);color:var(--warn);}
+.cal-ev-type.event{background:rgba(79,140,255,.15);color:var(--accent);}
+.cal-ev-type.deadline{background:rgba(81,207,102,.15);color:var(--green);}
+.cal-ev-date{font-size:.7rem;color:var(--dim);flex-shrink:0;min-width:50px;}
+.cal-ev-title{flex:1;}
+.cal-ev-badge{font-size:.6rem;padding:1px 6px;border-radius:4px;background:rgba(81,207,102,.15);color:var(--green);}
+.cal-upcoming{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.cal-upcoming h4{font-size:.8rem;color:var(--dim);font-weight:600;margin-bottom:8px;}
+
 @media(max-width:640px){
-  .container{padding:12px;}.bu-grid,.member-grid,.review-grid{grid-template-columns:1fr;}
-  .form-row{flex-direction:column;}.summary-bar{grid-template-columns:repeat(2,1fr);}
-  .tabs{flex-wrap:wrap;}.tab{font-size:.72rem;padding:8px 4px;}
+  .container{padding:10px;}
+  .bu-grid,.member-grid,.review-grid{grid-template-columns:1fr;}
+  .form-row{flex-direction:column;}
+  .summary-bar{grid-template-columns:repeat(2,1fr);}
+  .summary-bar .sum-card{padding:10px;}
+  .summary-bar .sum-card .num{font-size:1.4rem;}
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;gap:2px;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{font-size:.68rem;padding:8px 6px;white-space:nowrap;flex:0 0 auto;min-width:60px;}
+  .top-bar{padding:10px 14px;flex-direction:column;align-items:flex-start;gap:4px;}
+  .top-bar h1{font-size:1rem;}
+  .top-bar .meta{font-size:.65rem;}
+  .dr-summary{grid-template-columns:1fr!important;}
+  .dr-sum-card .dr-nums{gap:24px;}
+  .dr-issue-row{flex-wrap:wrap;gap:6px;}
+  .dr-issue-row .issue-actions{width:100%;justify-content:flex-start;margin-top:4px;}
+  .dr-member-row{flex-wrap:wrap;gap:4px;}
+  .dr-member-row .m-task{width:100%;order:10;}
+  .dr-member-row .m-actions{margin-left:auto;}
+  .wo-item{flex-direction:column;gap:8px;}
+  .wo-prio{width:100%;height:3px;align-self:auto;}
+  .plan-actions{flex-direction:column;}
+  .plan-header{padding:12px 14px;}
+  .ceo-inbox{padding:12px 14px;}
+  .my-orders-box{padding:12px 14px;}
+  .order-track{flex-wrap:wrap;gap:4px;}
+  .order-track .ot-title{min-width:100%;order:10;font-size:.72rem;}
+  .cal-card{padding:12px;}
+  .cal-day{min-height:40px;}
+  .cal-day .d-num{font-size:.65rem;}
+  .cal-dot{width:5px;height:5px;}
+  .dr-header{flex-direction:column;align-items:flex-start;}
+  .report-card{padding:14px;}
+  .opinion-box{padding:10px 12px;font-size:.75rem;}
+  .chief-header{flex-direction:column;gap:8px;}
 }
 @media print{
   .top-bar,.tabs,.wo-form,.wo-actions,.btn,.ms-dropdown{display:none!important;}
@@ -356,6 +427,7 @@ function checkAuth(){
     <button class="tab" data-tab="report">종합 리포트<span class="ko">Report</span></button>
     <button class="tab" data-tab="plans">계획 검토<span class="ko">Plan Review</span></button>
     <button class="tab" data-tab="orders">업무 지시<span class="ko">Work Orders</span></button>
+    <button class="tab" data-tab="calendar">일정<span class="ko">Calendar</span></button>
     <button class="tab" data-tab="daily">일일 보고<span class="ko">Daily Report</span></button>
   </div>
 
@@ -765,6 +837,27 @@ function checkAuth(){
       </div>
     </div>
     <div id="orderList"></div>
+  </div>
+
+  <!-- ===== CALENDAR ===== -->
+  <div class="tab-panel" id="tab-calendar">
+    <div class="cal-card">
+      <div class="cal-header">
+        <h3>회사 일정 Company Calendar</h3>
+        <div class="cal-nav">
+          <button onclick="navMonth(-1)">&larr;</button>
+          <span class="cal-month" id="calMonth"></span>
+          <button onclick="navMonth(1)">&rarr;</button>
+          <button onclick="goToday()" style="margin-left:8px;font-size:.7rem;">오늘</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+    <div class="cal-events" id="calEvents">
+      <h4 id="calEvTitle">오늘 일정</h4>
+      <div id="calEvList"><div style="color:var(--dim);font-size:.8rem;">일정이 없습니다.</div></div>
+      <div class="cal-upcoming" id="calUpcoming"></div>
+    </div>
   </div>
 
   <!-- ===== DAILY REPORT ===== -->
@@ -1228,6 +1321,174 @@ renderPlans();
 })();
 
 renderOrders();
+
+// --- Calendar ---
+var CAL_YEAR = new Date().getFullYear();
+var CAL_MONTH = new Date().getMonth();
+var CAL_SELECTED = null;
+var CAL_EVENTS = [];
+
+// 2026 한국 공휴일 (고정)
+var KR_HOLIDAYS = [
+  {date:'2026-01-01',type:'holiday',title:'신정'},
+  {date:'2026-02-16',type:'holiday',title:'설날 연휴'},
+  {date:'2026-02-17',type:'holiday',title:'설날'},
+  {date:'2026-02-18',type:'holiday',title:'설날 연휴'},
+  {date:'2026-03-01',type:'holiday',title:'삼일절'},
+  {date:'2026-05-05',type:'holiday',title:'어린이날'},
+  {date:'2026-06-06',type:'holiday',title:'현충일'},
+  {date:'2026-08-15',type:'holiday',title:'광복절'},
+  {date:'2026-10-03',type:'holiday',title:'개천절'},
+  {date:'2026-10-09',type:'holiday',title:'한글날'},
+  {date:'2026-12-25',type:'holiday',title:'성탄절'}
+];
+
+// 회사 주요 일정
+var COMPANY_EVENTS = [
+  {date:'2026-03-01',type:'event',title:'무료 체험 기간 시작'},
+  {date:'2026-08-31',type:'deadline',title:'무료 체험 기간 종료'}
+];
+
+function loadSchedule() {
+  // 공휴일 + 회사 일정은 항상 포함
+  CAL_EVENTS = KR_HOLIDAYS.concat(COMPANY_EVENTS);
+  if (!SCRIPT_URL) { renderCalendar(); return; }
+  fetch(SCRIPT_URL + '?action=getSchedule')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (Array.isArray(data)) {
+        CAL_EVENTS = CAL_EVENTS.concat(data);
+      }
+      renderCalendar();
+    }).catch(function() { renderCalendar(); });
+}
+
+function renderCalendar() {
+  var grid = document.getElementById('calGrid');
+  var dows = ['일','월','화','수','목','금','토'];
+  var html = '';
+  for (var d = 0; d < 7; d++) {
+    html += '<div class="cal-dow">' + dows[d] + '</div>';
+  }
+
+  var first = new Date(CAL_YEAR, CAL_MONTH, 1);
+  var startDay = first.getDay();
+  var daysInMonth = new Date(CAL_YEAR, CAL_MONTH + 1, 0).getDate();
+  var today = new Date();
+  var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+
+  // Empty cells before 1st
+  for (var e = 0; e < startDay; e++) {
+    html += '<div class="cal-day empty"></div>';
+  }
+
+  for (var day = 1; day <= daysInMonth; day++) {
+    var dateStr = CAL_YEAR + '-' + ('0'+(CAL_MONTH+1)).slice(-2) + '-' + ('0'+day).slice(-2);
+    var dow = (startDay + day - 1) % 7;
+    var cls = 'cal-day';
+    if (dateStr === todayStr) cls += ' today';
+    if (dow === 0) cls += ' sun';
+    if (dow === 6) cls += ' sat';
+    if (CAL_SELECTED === dateStr) cls += ' selected';
+
+    var dayEvents = CAL_EVENTS.filter(function(ev) { return ev.date === dateStr; });
+    var isHoliday = dayEvents.some(function(ev) { return ev.type === 'holiday'; });
+    if (isHoliday) cls += ' sun';
+
+    html += '<div class="' + cls + '" onclick="selectDay(\'' + dateStr + '\')">';
+    html += '<div class="d-num">' + day + '</div>';
+    if (dayEvents.length) {
+      html += '<div class="cal-dots">';
+      var types = {};
+      dayEvents.forEach(function(ev) { types[ev.type] = true; });
+      for (var t in types) { html += '<div class="cal-dot ' + t + '"></div>'; }
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  grid.innerHTML = html;
+
+  var monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('calMonth').textContent = CAL_YEAR + '년 ' + monthNames[CAL_MONTH];
+
+  // 선택된 날짜 or 오늘 일정 표시
+  showDayEvents(CAL_SELECTED || todayStr);
+  showUpcoming();
+}
+
+function selectDay(dateStr) {
+  CAL_SELECTED = dateStr;
+  renderCalendar();
+}
+
+function navMonth(dir) {
+  CAL_MONTH += dir;
+  if (CAL_MONTH > 11) { CAL_MONTH = 0; CAL_YEAR++; }
+  if (CAL_MONTH < 0) { CAL_MONTH = 11; CAL_YEAR--; }
+  CAL_SELECTED = null;
+  renderCalendar();
+}
+
+function goToday() {
+  var t = new Date();
+  CAL_YEAR = t.getFullYear();
+  CAL_MONTH = t.getMonth();
+  CAL_SELECTED = null;
+  renderCalendar();
+}
+
+function showDayEvents(dateStr) {
+  var evs = CAL_EVENTS.filter(function(ev) { return ev.date === dateStr; });
+  var el = document.getElementById('calEvList');
+  var title = document.getElementById('calEvTitle');
+  var d = new Date(dateStr + 'T00:00:00');
+  var dows = ['일','월','화','수','목','금','토'];
+  title.textContent = (d.getMonth()+1) + '/' + d.getDate() + ' (' + dows[d.getDay()] + ') 일정';
+
+  if (!evs.length) {
+    el.innerHTML = '<div style="color:var(--dim);font-size:.8rem;padding:8px 0;">이 날짜에 일정이 없습니다.</div>';
+    return;
+  }
+  var typeKo = {holiday:'공휴일',vacation:'휴가',event:'일정',deadline:'마감'};
+  var html = '';
+  evs.forEach(function(ev) {
+    html += '<div class="cal-ev-item">';
+    html += '<span class="cal-ev-type ' + ev.type + '">' + (typeKo[ev.type] || ev.type) + '</span>';
+    html += '<span class="cal-ev-title">' + esc(ev.title) + '</span>';
+    if (ev.approved === 'O') html += '<span class="cal-ev-badge">승인</span>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function showUpcoming() {
+  var el = document.getElementById('calUpcoming');
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var upcoming = CAL_EVENTS.filter(function(ev) {
+    var d = new Date(ev.date + 'T00:00:00');
+    return d >= today;
+  }).sort(function(a,b) { return a.date.localeCompare(b.date); }).slice(0, 5);
+
+  if (!upcoming.length) { el.innerHTML = ''; return; }
+  var typeKo = {holiday:'공휴일',vacation:'휴가',event:'일정',deadline:'마감'};
+  var html = '<h4>다가오는 일정</h4>';
+  upcoming.forEach(function(ev) {
+    var d = new Date(ev.date + 'T00:00:00');
+    var diff = Math.ceil((d - today) / 86400000);
+    var diffText = diff === 0 ? '오늘' : diff === 1 ? '내일' : diff + '일 후';
+    html += '<div class="cal-ev-item">';
+    html += '<span class="cal-ev-type ' + ev.type + '">' + (typeKo[ev.type] || ev.type) + '</span>';
+    html += '<span class="cal-ev-date">' + (d.getMonth()+1) + '/' + d.getDate() + '</span>';
+    html += '<span class="cal-ev-title">' + esc(ev.title) + '</span>';
+    html += '<span style="font-size:.65rem;color:var(--dim);">' + diffText + '</span>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+loadSchedule();
 
 // --- Daily Report — Executive View ---
 var DR_CACHE = {};
