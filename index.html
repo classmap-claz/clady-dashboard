@@ -265,6 +265,25 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .dr-existing-comment{background:rgba(79,140,255,.06);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:.78rem;line-height:1.6;}
 .dr-empty{text-align:center;padding:60px 20px;color:var(--dim);font-size:.85rem;}
 
+/* CEO Inbox */
+.ceo-inbox{background:linear-gradient(135deg,rgba(255,107,107,.08),rgba(255,169,77,.05));border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
+.ceo-inbox h4{font-size:.85rem;font-weight:700;color:var(--warn);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ceo-inbox .inbox-count{background:var(--warn);color:#fff;font-size:.65rem;padding:2px 8px;border-radius:10px;}
+.ceo-inbox-empty{background:rgba(81,207,102,.08);border:1px solid rgba(81,207,102,.2);border-radius:12px;padding:14px 20px;margin-bottom:16px;font-size:.8rem;color:var(--green);text-align:center;}
+
+/* My Orders tracker */
+.my-orders-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
+.my-orders-box h4{font-size:.85rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:var(--accent);}
+.order-track{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.order-track:last-child{border-bottom:none;}
+.order-track .ot-status{font-size:.6rem;padding:2px 8px;border-radius:4px;flex-shrink:0;font-weight:600;min-width:52px;text-align:center;}
+.ot-status.pending{background:rgba(255,169,77,.15);color:var(--orange);}
+.ot-status.progress{background:rgba(79,140,255,.15);color:var(--accent);}
+.ot-status.done{background:rgba(81,207,102,.15);color:var(--green);}
+.order-track .ot-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.order-track .ot-assign{font-size:.65rem;color:var(--dim);}
+.order-track .ot-time{font-size:.6rem;color:var(--dim);flex-shrink:0;}
+
 @media(max-width:640px){
   .container{padding:12px;}.bu-grid,.member-grid,.review-grid{grid-template-columns:1fr;}
   .form-row{flex-direction:column;}.summary-bar{grid-template-columns:repeat(2,1fr);}
@@ -759,8 +778,16 @@ function checkAuth(){
       </div>
       <span class="dr-status" id="drStatus">--</span>
     </div>
+
+    <!-- 1. CEO INBOX: 지금 결정할 것 -->
+    <div id="ceoInbox"></div>
+
+    <!-- 2. 내가 지시한 업무 현황 -->
+    <div id="myOrdersStatus"></div>
+
+    <!-- 3. 일일 보고 본문 -->
     <div id="drContent">
-      <div class="dr-empty">아직 일일 보고가 없습니다.<br>야간 자동 운영이 시작되면 매일 새벽 보고서가 생성됩니다.<br><br>No daily reports yet. Reports are generated nightly at 1:00 AM.</div>
+      <div class="dr-empty">아직 일일 보고가 없습니다.<br>야간 자동 운영이 시작되면 매일 새벽 보고서가 생성됩니다.</div>
     </div>
   </div>
 
@@ -1501,7 +1528,154 @@ function saveDrComment(bu, convertToOrder, markDone) {
   renderDailyReport(rpt);
 }
 
+// --- CEO Inbox: 지금 결정할 것 ---
+function renderCeoInbox() {
+  var orders = getOrders();
+  // Find high-risk pending items + unreviewed orders
+  var pendingOrders = orders.filter(function(o) { return o.status === 'pending'; });
+  var ceoOrders = orders.filter(function(o) { return (o.title || '').indexOf('[대표 지시]') === 0; });
+
+  // Check daily report for high-risk items needing decision
+  var inboxItems = [];
+  var key = 'clady_daily_' + DR_CURRENT_DATE;
+  var rpt = null;
+  try { rpt = JSON.parse(localStorage.getItem(key)); } catch(e) {}
+  if (rpt) {
+    ['home','stat','map'].forEach(function(bu) {
+      var d = rpt[bu] || {};
+      (d.issues || []).forEach(function(iss) {
+        if (classifyRisk(iss.desc) === 'high') {
+          var handled = (rpt._handled || {})[bu + '_' + iss.desc];
+          if (!handled) {
+            inboxItems.push({ type: 'risk', bu: bu.toUpperCase(), desc: iss.desc, severity: 'high' });
+          }
+        }
+      });
+    });
+  }
+
+  // Pending orders that need attention
+  pendingOrders.forEach(function(o) {
+    inboxItems.push({ type: 'order', id: o.id, title: o.title, assign: o.assign, created: o.created });
+  });
+
+  var el = document.getElementById('ceoInbox');
+  if (!inboxItems.length) {
+    el.innerHTML = '<div class="ceo-inbox-empty">결재 대기 항목이 없습니다. 모든 업무가 정상 진행 중입니다.</div>';
+    return;
+  }
+
+  var html = '<div class="ceo-inbox">';
+  html += '<h4>결재함 — 지금 확인하세요 <span class="inbox-count">' + inboxItems.length + '건</span></h4>';
+
+  for (var i = 0; i < inboxItems.length; i++) {
+    var item = inboxItems[i];
+    html += '<div class="dr-issue-row">';
+    if (item.type === 'risk') {
+      html += '<span class="sev H">위험</span>';
+      html += '<span class="issue-bu">' + item.bu + '</span>';
+      html += '<span class="issue-text">' + esc(item.desc) + '</span>';
+      html += '<span class="issue-actions">';
+      html += '<button class="btn-approve" onclick="inboxApprove(\'' + esc(item.bu) + '\',\'' + esc(item.desc).replace(/'/g,'\\\'') + '\')">승인</button>';
+      html += '<button class="btn-order" onclick="inboxOrder(\'' + esc(item.bu) + '\',\'' + esc(item.desc).replace(/'/g,'\\\'') + '\')">지시</button>';
+      html += '<button class="btn-hold" onclick="inboxHold(\'' + esc(item.bu) + '\',\'' + esc(item.desc).replace(/'/g,'\\\'') + '\')">보류</button>';
+      html += '</span>';
+    } else {
+      html += '<span class="sev M">대기</span>';
+      html += '<span class="issue-text">' + esc(item.title) + '</span>';
+      html += '<span class="issue-actions">';
+      html += '<button class="btn-approve" onclick="updateStatus(' + item.id + ',\'progress\')">시작</button>';
+      html += '<button class="btn-hold" onclick="deleteOrder(' + item.id + ')">취소</button>';
+      html += '</span>';
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function inboxApprove(bu, desc) {
+  markHandled(bu, desc);
+  sendTelegram('✅ <b>[CEO 승인]</b> ' + bu + '\n' + desc + '\n\n팀장 진행 승인됨');
+  alert(bu + ' 팀장에게 진행 승인! 텔레그램 알림 전송됨.');
+  renderCeoInbox();
+}
+function inboxOrder(bu, desc) {
+  var detail = prompt('추가 지시:', desc);
+  if (!detail) return;
+  markHandled(bu, desc);
+  var buHeads = { HOME: ['seola'], STAT: ['subin'], MAP: ['haeun'] };
+  var order = { id: Date.now(), assign: buHeads[bu] || [bu.toLowerCase()], prio: 'urgent',
+    title: '[대표 지시] ' + bu + ' — ' + desc.slice(0,30), detail: detail,
+    status: 'pending', created: new Date().toISOString() };
+  var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
+  gsPost({ action:'addOrder', id:order.id, assign:order.assign, prio:'urgent',
+    title:order.title, detail:detail, status:'pending', created:order.created, updatedBy:'대표' });
+  sendTelegram('📋 <b>[업무지시]</b> ' + bu + '\n' + detail);
+  alert('업무지시 생성 + 텔레그램 알림!');
+  renderCeoInbox();
+}
+function inboxHold(bu, desc) {
+  markHandled(bu, desc);
+  sendTelegram('⏸ <b>[보류]</b> ' + bu + '\n' + desc);
+  alert('보류 처리됨.');
+  renderCeoInbox();
+}
+function markHandled(bu, desc) {
+  var key = 'clady_daily_' + DR_CURRENT_DATE;
+  var rpt = JSON.parse(localStorage.getItem(key) || '{}');
+  rpt._handled = rpt._handled || {};
+  rpt._handled[bu + '_' + desc] = new Date().toLocaleString('ko-KR');
+  localStorage.setItem(key, JSON.stringify(rpt));
+}
+
+// --- 내가 지시한 업무 현황 ---
+function renderMyOrders() {
+  var orders = getOrders();
+  // Show CEO-originated orders and recent orders
+  var tracked = orders.filter(function(o) {
+    return (o.title || '').indexOf('[대표') > -1 || o.updatedBy === '대표' || o.prio === 'urgent';
+  }).slice(-10);
+
+  var el = document.getElementById('myOrdersStatus');
+  if (!tracked.length) { el.innerHTML = ''; return; }
+
+  var html = '<div class="my-orders-box">';
+  html += '<h4>내가 지시한 업무 현황 (' + tracked.length + '건)</h4>';
+
+  tracked.sort(function(a,b) {
+    var so = {pending:0, progress:1, done:2};
+    return (so[a.status]||0) - (so[b.status]||0);
+  });
+
+  for (var i = 0; i < tracked.length; i++) {
+    var o = tracked[i];
+    var assignArr = Array.isArray(o.assign) ? o.assign : [o.assign];
+    var assignNames = assignArr.map(function(a) { return NAMES[a] || a; }).join(', ');
+    var d = new Date(o.created);
+    var ds = (d.getMonth()+1) + '/' + d.getDate();
+    var statusKo = {pending:'대기',progress:'진행중',done:'완료'};
+
+    html += '<div class="order-track">';
+    html += '<span class="ot-status ' + o.status + '">' + (statusKo[o.status] || o.status) + '</span>';
+    html += '<span class="ot-title">' + esc(o.title) + '</span>';
+    html += '<span class="ot-assign">' + assignNames + '</span>';
+    html += '<span class="ot-time">' + ds + '</span>';
+
+    if (o.status === 'pending') {
+      html += '<button class="btn-approve" style="font-size:.6rem;padding:2px 6px;" onclick="updateStatus(' + o.id + ',\'progress\')">시작</button>';
+    } else if (o.status === 'progress') {
+      html += '<button class="btn-done" style="font-size:.6rem;padding:2px 6px;" onclick="updateStatus(' + o.id + ',\'done\')">완료</button>';
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
 loadDailyReport();
+renderCeoInbox();
+renderMyOrders();
 
 initSync();
 </script>
