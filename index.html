@@ -1272,11 +1272,25 @@ function loadDailyReport(date) {
       DR_CACHE[data.date] = data;
       DR_CURRENT_DATE = data.date;
       localStorage.setItem('clady_daily_' + data.date, JSON.stringify(data));
+      localStorage.setItem('clady_daily_latest', JSON.stringify(data));
       renderDailyReport(data);
+      renderCeoInbox();
+      renderMyOrders();
+    } else {
+      // API 반환 null → localStorage에서 시도
+      var local = localStorage.getItem('clady_daily_latest');
+      if (local) {
+        var ld = JSON.parse(local);
+        renderDailyReport(ld);
+      } else {
+        document.getElementById('drContent').innerHTML = '<div class="dr-empty">아직 일일 보고가 없습니다.<br>야간 자동 운영(새벽 1시)이 시작되면 보고서가 자동 생성됩니다.</div>';
+      }
     }
   }).catch(function() {
     var local = localStorage.getItem('clady_daily_latest');
-    if (local) renderDailyReport(JSON.parse(local));
+    if (local) {
+      renderDailyReport(JSON.parse(local));
+    }
   });
 }
 
