@@ -202,38 +202,66 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .plan-stats span{color:var(--dim);}
 .plan-stats .ct{font-weight:700;}
 
-/* Daily Report */
-.dr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+/* Daily Report — Executive View */
+.dr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .dr-header h3{font-size:1rem;font-weight:700;}
 .dr-date-nav{display:flex;align-items:center;gap:8px;}
 .dr-date-nav button{background:none;border:1px solid var(--border);color:var(--dim);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem;}
 .dr-date-nav button:hover{border-color:var(--accent);color:var(--text);}
 .dr-date{font-size:.85rem;font-weight:600;min-width:100px;text-align:center;}
 .dr-status{font-size:.7rem;padding:3px 10px;border-radius:10px;background:rgba(81,207,102,.15);color:var(--green);}
-.dr-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-.dr-sum-card{background:var(--card);border-radius:10px;padding:16px;border:1px solid var(--border);text-align:center;}
-.dr-sum-card .dr-bu-label{font-size:.75rem;font-weight:600;margin-bottom:8px;}
-.dr-sum-card .dr-nums{display:flex;justify-content:center;gap:16px;margin-bottom:6px;}
+
+/* Summary strip */
+.dr-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.dr-sum-card{background:var(--card);border-radius:10px;padding:14px;border:1px solid var(--border);text-align:center;position:relative;overflow:hidden;}
+.dr-sum-card .dr-bu-label{font-size:.75rem;font-weight:600;margin-bottom:6px;}
+.dr-sum-card .dr-nums{display:flex;justify-content:center;gap:16px;margin-bottom:4px;}
 .dr-sum-card .dr-n{font-size:1.4rem;font-weight:700;}
 .dr-sum-card .dr-l{font-size:.6rem;color:var(--dim);}
-.dr-bu-section{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);margin-bottom:16px;}
-.dr-bu-section h4{font-size:.9rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.dr-bu-section h4 .bu-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.dr-bu-section h4 .bu-dot.home{background:#4f8cff;}.dr-bu-section h4 .bu-dot.stat{background:#00d4aa;}.dr-bu-section h4 .bu-dot.map{background:#ffa94d;}
-.dr-findings{list-style:none;padding:0;margin:0 0 12px;}
-.dr-findings li{font-size:.78rem;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);padding-left:14px;position:relative;}
-.dr-findings li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--dim);}
-.dr-issues{margin:8px 0 12px;}
-.dr-issue{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:4px 0;}
-.dr-members{margin:8px 0 12px;}
-.dr-member-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.dr-member-row .m-status{font-size:.65rem;padding:1px 6px;border-radius:4px;}
+.dr-sum-card .dr-bar{position:absolute;bottom:0;left:0;right:0;height:3px;}
+.dr-sum-card .dr-bar.green{background:var(--green);}.dr-sum-card .dr-bar.orange{background:var(--orange);}.dr-sum-card .dr-bar.red{background:var(--warn);}
+
+/* Risk sections */
+.dr-risk-section{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:12px;border-left:4px solid;}
+.dr-risk-section.risk-high{border-left-color:var(--warn);}
+.dr-risk-section.risk-mid{border-left-color:var(--orange);}
+.dr-risk-section.risk-low{border-left-color:var(--green);}
+.dr-risk-title{font-size:.8rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.dr-risk-title .risk-count{font-size:.65rem;padding:1px 8px;border-radius:8px;font-weight:600;}
+.risk-high .risk-count{background:rgba(255,107,107,.15);color:var(--warn);}
+.risk-mid .risk-count{background:rgba(255,169,77,.15);color:var(--orange);}
+.risk-low .risk-count{background:rgba(81,207,102,.15);color:var(--green);}
+
+/* Issue row with actions */
+.dr-issue-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dr-issue-row:last-child{border-bottom:none;}
+.dr-issue-row .sev{flex-shrink:0;}
+.dr-issue-row .issue-text{flex:1;min-width:0;}
+.dr-issue-row .issue-bu{font-size:.6rem;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--dim);flex-shrink:0;}
+.dr-issue-row .issue-actions{display:flex;gap:4px;flex-shrink:0;}
+.dr-issue-row .issue-actions button{font-size:.65rem;padding:3px 8px;border-radius:5px;border:none;cursor:pointer;font-weight:500;}
+.btn-approve{background:var(--green);color:#fff;}.btn-approve:hover{opacity:.85;}
+.btn-order{background:var(--accent);color:#fff;}.btn-order:hover{opacity:.85;}
+.btn-hold{background:var(--border);color:var(--dim);}.btn-hold:hover{background:var(--card-hover);}
+.btn-done{background:rgba(81,207,102,.15);color:var(--green);border:1px solid rgba(81,207,102,.3)!important;}.btn-done:hover{opacity:.85;}
+
+/* Member work table */
+.dr-work-section{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:12px;border:1px solid var(--border);}
+.dr-work-title{font-size:.8rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.dr-member-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dr-member-row:last-child{border-bottom:none;}
+.dr-member-row .m-name{font-weight:600;min-width:50px;}
+.dr-member-row .m-task{flex:1;color:var(--dim);}
+.dr-member-row .m-status{font-size:.65rem;padding:2px 8px;border-radius:4px;flex-shrink:0;}
 .dr-member-row .m-status.done{background:rgba(81,207,102,.15);color:var(--green);}
 .dr-member-row .m-status.progress{background:rgba(255,169,77,.15);color:var(--orange);}
-.dr-comment-box{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.dr-member-row .m-actions{display:flex;gap:4px;flex-shrink:0;}
+
+/* Comment box */
+.dr-comment-box{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:12px;border:1px solid var(--border);}
 .dr-comment-box label{font-size:.72rem;color:var(--dim);display:block;margin-bottom:4px;}
 .dr-comment-box textarea{width:100%;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:10px;font-size:.8rem;resize:vertical;min-height:50px;}
-.dr-comment-box .dr-btn-row{display:flex;gap:8px;margin-top:8px;}
+.dr-comment-box .dr-btn-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
 .dr-existing-comment{background:rgba(79,140,255,.06);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:.78rem;line-height:1.6;}
 .dr-empty{text-align:center;padding:60px 20px;color:var(--dim);font-size:.85rem;}
 
@@ -1174,20 +1202,38 @@ renderPlans();
 
 renderOrders();
 
-// --- Daily Report ---
+// --- Daily Report — Executive View ---
 var DR_CACHE = {};
 var DR_CURRENT_DATE = null;
+var TG_BOT = '8808029826:AAFhDRtFKn2Z_qTq7K6tLIM2qQKgrO_amCU';
+var TG_CHAT = '8851174037';
+
+// Risk keywords for auto-classification
+var RISK_HIGH_KW = ['법적','개인정보','보안','데이터 유출','시스템 장애','0%','MVP 위험','MVP 일정','누출','악화'];
+var RISK_MID_KW = ['미반영','미보정','미달','누락','겹침','불일치','업데이트 필요','인코딩'];
 
 function normDate(d) {
   if (!d) return '';
-  // Handle Google Sheets date format "Tue Aug 04 2026..." → "2026-08-04"
   try { var dt = new Date(d); if (!isNaN(dt)) return dt.toISOString().slice(0,10); } catch(e) {}
   return String(d).slice(0,10);
 }
 
+function classifyRisk(desc) {
+  var d = (desc || '').toLowerCase();
+  for (var i = 0; i < RISK_HIGH_KW.length; i++) { if (d.indexOf(RISK_HIGH_KW[i]) > -1) return 'high'; }
+  for (var i = 0; i < RISK_MID_KW.length; i++) { if (d.indexOf(RISK_MID_KW[i]) > -1) return 'mid'; }
+  return 'low';
+}
+
+function sendTelegram(msg) {
+  fetch('https://api.telegram.org/bot' + TG_BOT + '/sendMessage', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: TG_CHAT, text: msg, parse_mode: 'HTML' })
+  }).catch(function(){});
+}
+
 function loadDailyReport(date) {
   if (!SCRIPT_URL) {
-    // Try local cache
     var local = localStorage.getItem('clady_daily_' + (date || 'latest'));
     if (local) { renderDailyReport(JSON.parse(local)); return; }
     return;
@@ -1202,7 +1248,6 @@ function loadDailyReport(date) {
       renderDailyReport(data);
     }
   }).catch(function() {
-    // Fallback to local
     var local = localStorage.getItem('clady_daily_latest');
     if (local) renderDailyReport(JSON.parse(local));
   });
@@ -1212,102 +1257,220 @@ function navReport(dir) {
   if (!DR_CURRENT_DATE) return;
   var d = new Date(DR_CURRENT_DATE);
   d.setDate(d.getDate() + dir);
-  var ds = d.toISOString().slice(0, 10);
-  loadDailyReport(ds);
+  loadDailyReport(d.toISOString().slice(0, 10));
 }
 
 function renderDailyReport(rpt) {
   if (!rpt || !rpt.date) {
-    document.getElementById('drContent').innerHTML = '<div class="dr-empty">해당 날짜의 보고가 없습니다.<br>No report for this date.</div>';
+    document.getElementById('drContent').innerHTML = '<div class="dr-empty">아직 일일 보고가 없습니다.<br>야간 자동 운영이 시작되면 매일 새벽 보고서가 생성됩니다.</div>';
     return;
   }
   DR_CURRENT_DATE = rpt.date;
   document.getElementById('drDate').textContent = rpt.date;
-  document.getElementById('drStatus').textContent = rpt.generatedAt ? '생성됨 Generated' : '--';
+  document.getElementById('drStatus').textContent = rpt.generatedAt ? '생성 완료' : '--';
 
   var bus = [
-    { key: 'home', label: 'HOME 사업부', data: rpt.home, dot: 'home' },
-    { key: 'stat', label: 'STAT 사업부', data: rpt.stat, dot: 'stat' },
-    { key: 'map',  label: 'MAP 사업부',  data: rpt.map,  dot: 'map' }
+    { key: 'home', label: 'HOME', data: rpt.home },
+    { key: 'stat', label: 'STAT', data: rpt.stat },
+    { key: 'map',  label: 'MAP',  data: rpt.map }
   ];
 
+  // Collect all issues with BU tag and classify
+  var allIssues = [];
+  var allMembers = [];
+  for (var b = 0; b < bus.length; b++) {
+    var bd = bus[b].data || {};
+    (bd.issues || []).forEach(function(iss) {
+      iss._bu = bus[b].key; iss._buLabel = bus[b].label;
+      iss._risk = classifyRisk(iss.desc);
+      allIssues.push(iss);
+    });
+    (bd.memberWork || []).forEach(function(mw) {
+      mw._bu = bus[b].key; mw._buLabel = bus[b].label;
+      allMembers.push(mw);
+    });
+  }
+
+  var highIssues = allIssues.filter(function(i) { return i._risk === 'high'; });
+  var midIssues = allIssues.filter(function(i) { return i._risk === 'mid'; });
+  var lowIssues = allIssues.filter(function(i) { return i._risk === 'low'; });
+  var doneMembers = allMembers.filter(function(m) { return m.status === 'done'; });
+  var progMembers = allMembers.filter(function(m) { return m.status !== 'done'; });
+
   var html = '';
-  // Summary cards
+
+  // ── Summary cards with color bar ──
   html += '<div class="dr-summary">';
   for (var s = 0; s < bus.length; s++) {
     var bd = bus[s].data || {};
+    var ic = bd.issuesFound || 0;
+    var barClass = ic === 0 ? 'green' : (ic <= 2 ? 'orange' : 'red');
     html += '<div class="dr-sum-card"><div class="dr-bu-label">' + bus[s].label + '</div>';
     html += '<div class="dr-nums"><div><div class="dr-n accent">' + (bd.filesChecked || 0) + '</div><div class="dr-l">파일 점검</div></div>';
-    html += '<div><div class="dr-n ' + ((bd.issuesFound || 0) > 0 ? 'warn' : 'green') + '">' + (bd.issuesFound || 0) + '</div><div class="dr-l">이슈</div></div></div>';
-    html += '<div style="font-size:.72rem;color:var(--dim);margin-top:4px;">' + esc(bd.summary || '데이터 없음') + '</div></div>';
+    html += '<div><div class="dr-n ' + (ic > 0 ? 'warn' : 'green') + '">' + ic + '</div><div class="dr-l">이슈</div></div></div>';
+    html += '<div style="font-size:.7rem;color:var(--dim);margin-top:4px;">' + esc(bd.summary || '--') + '</div>';
+    html += '<div class="dr-bar ' + barClass + '"></div></div>';
   }
   html += '</div>';
 
-  // Per-BU sections
-  for (var b = 0; b < bus.length; b++) {
-    var bu = bus[b];
-    var d = bu.data || {};
-    var comments = (rpt.ceoComments || {})[bu.key];
-
-    html += '<div class="dr-bu-section">';
-    html += '<h4><span class="bu-dot ' + bu.dot + '"></span>' + bu.label + '</h4>';
-
-    // Findings
-    var findings = d.findings || [];
-    if (findings.length) {
-      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">주요 발견 Findings</div><ul class="dr-findings">';
-      for (var f = 0; f < findings.length; f++) html += '<li>' + esc(findings[f]) + '</li>';
-      html += '</ul>';
+  // ── HIGH RISK: CEO 승인 필요 ──
+  if (highIssues.length) {
+    html += '<div class="dr-risk-section risk-high">';
+    html += '<div class="dr-risk-title">CEO 승인 필요 <span class="risk-count">' + highIssues.length + '건</span></div>';
+    for (var h = 0; h < highIssues.length; h++) {
+      var hi = highIssues[h];
+      html += '<div class="dr-issue-row">';
+      html += '<span class="sev H">H</span>';
+      html += '<span class="issue-bu">' + hi._buLabel + '</span>';
+      html += '<span class="issue-text">' + esc(hi.desc) + '</span>';
+      html += '<span class="issue-actions">';
+      html += '<button class="btn-approve" onclick="drAction(\'approve\',' + h + ',\'high\')">승인 진행</button>';
+      html += '<button class="btn-order" onclick="drAction(\'order\',' + h + ',\'high\')">추가지시</button>';
+      html += '<button class="btn-hold" onclick="drAction(\'hold\',' + h + ',\'high\')">보류</button>';
+      html += '</span></div>';
     }
-
-    // Issues
-    var issues = d.issues || [];
-    if (issues.length) {
-      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">이슈 Issues</div><div class="dr-issues">';
-      for (var ii = 0; ii < issues.length; ii++) {
-        var sev = (issues[ii].severity || 'low').charAt(0).toUpperCase();
-        html += '<div class="dr-issue"><span class="sev ' + sev + '">' + sev + '</span>' + esc(issues[ii].desc || '') + '</div>';
-      }
-      html += '</div>';
-    }
-
-    // Member work
-    var members = d.memberWork || [];
-    if (members.length) {
-      html += '<div style="font-size:.72rem;color:var(--dim);margin-bottom:4px;">팀원 작업 Member Work</div><div class="dr-members">';
-      for (var m = 0; m < members.length; m++) {
-        var mw = members[m];
-        html += '<div class="dr-member-row"><strong>' + esc(mw.name || '') + '</strong>';
-        html += '<span>' + esc(mw.task || '') + '</span>';
-        html += '<span class="m-status ' + (mw.status || 'progress') + '">' + (mw.status === 'done' ? '완료' : '진행중') + '</span></div>';
-      }
-      html += '</div>';
-    }
-
-    // Existing CEO comment
-    if (comments && comments.text) {
-      html += '<div class="dr-existing-comment"><strong>대표 코멘트:</strong> ' + esc(comments.text) + '<br><span style="font-size:.65rem;color:var(--dim);">' + (comments.date || '') + '</span></div>';
-    }
-
-    // Comment box
-    html += '<div class="dr-comment-box">';
-    html += '<label>대표 코멘트 CEO Comment</label>';
-    html += '<textarea id="drComment_' + bu.key + '" placeholder="이 사업부에 대한 의견이나 추가 지시...">' + (comments && comments.text ? esc(comments.text) : '') + '</textarea>';
-    html += '<div class="dr-btn-row">';
-    html += '<button class="btn btn-primary btn-sm" onclick="saveDrComment(\'' + bu.key + '\',false)">저장 Save</button>';
-    html += '<button class="btn btn-sm" style="background:var(--orange);color:#fff;" onclick="saveDrComment(\'' + bu.key + '\',true)">업무지시로 전환 Convert to Order</button>';
-    html += '</div></div>';
-
     html += '</div>';
   }
 
+  // ── MID RISK: 팀장 자체 진행 (CEO 알림) ──
+  if (midIssues.length) {
+    html += '<div class="dr-risk-section risk-mid">';
+    html += '<div class="dr-risk-title">팀장 자체 진행 (CEO 알림) <span class="risk-count">' + midIssues.length + '건</span></div>';
+    for (var mi = 0; mi < midIssues.length; mi++) {
+      var md = midIssues[mi];
+      html += '<div class="dr-issue-row">';
+      html += '<span class="sev M">M</span>';
+      html += '<span class="issue-bu">' + md._buLabel + '</span>';
+      html += '<span class="issue-text">' + esc(md.desc) + '</span>';
+      html += '<span class="issue-actions">';
+      html += '<button class="btn-approve" onclick="drAction(\'approve\',' + mi + ',\'mid\')">확인</button>';
+      html += '<button class="btn-order" onclick="drAction(\'order\',' + mi + ',\'mid\')">추가지시</button>';
+      html += '</span></div>';
+    }
+    html += '</div>';
+  }
+
+  // ── LOW RISK: 자동 처리 ──
+  if (lowIssues.length) {
+    html += '<div class="dr-risk-section risk-low">';
+    html += '<div class="dr-risk-title">팀장 자체 처리 (자동) <span class="risk-count">' + lowIssues.length + '건</span></div>';
+    for (var li = 0; li < lowIssues.length; li++) {
+      var ld = lowIssues[li];
+      html += '<div class="dr-issue-row">';
+      html += '<span class="sev L">L</span>';
+      html += '<span class="issue-bu">' + ld._buLabel + '</span>';
+      html += '<span class="issue-text">' + esc(ld.desc) + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+
+  // ── Member work: completed + in progress ──
+  html += '<div class="dr-work-section">';
+  html += '<div class="dr-work-title">팀원 작업 현황 <span style="font-size:.65rem;color:var(--dim);font-weight:400;">완료 ' + doneMembers.length + ' / 진행 ' + progMembers.length + '</span></div>';
+
+  // Done first
+  for (var dm = 0; dm < doneMembers.length; dm++) {
+    var dw = doneMembers[dm];
+    html += '<div class="dr-member-row">';
+    html += '<span class="issue-bu">' + dw._buLabel + '</span>';
+    html += '<span class="m-name">' + esc(dw.name) + '</span>';
+    html += '<span class="m-task">' + esc(dw.task) + '</span>';
+    html += '<span class="m-status done">완료</span>';
+    html += '<span class="m-actions"><button class="btn-done" onclick="drMemberAction(\'done\',\'' + esc(dw.name) + '\')">확인</button></span>';
+    html += '</div>';
+  }
+  // Progress
+  for (var pm = 0; pm < progMembers.length; pm++) {
+    var pw = progMembers[pm];
+    html += '<div class="dr-member-row">';
+    html += '<span class="issue-bu">' + pw._buLabel + '</span>';
+    html += '<span class="m-name">' + esc(pw.name) + '</span>';
+    html += '<span class="m-task">' + esc(pw.task) + '</span>';
+    html += '<span class="m-status progress">진행중</span>';
+    html += '<span class="m-actions"><button class="btn-order" onclick="drMemberAction(\'order\',\'' + esc(pw.name) + '\')">추가지시</button></span>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // ── CEO Comment per BU ──
+  for (var cb = 0; cb < bus.length; cb++) {
+    var cbu = bus[cb];
+    var comments = (rpt.ceoComments || {})[cbu.key];
+    html += '<div class="dr-comment-box">';
+    html += '<label>' + cbu.label + ' 대표 코멘트</label>';
+    if (comments && comments.text) {
+      html += '<div class="dr-existing-comment"><strong>기존 코멘트:</strong> ' + esc(comments.text) + ' <span style="font-size:.6rem;color:var(--dim);">' + (comments.date || '') + '</span></div>';
+    }
+    html += '<textarea id="drComment_' + cbu.key + '" placeholder="' + cbu.label + ' 사업부에 의견이나 지시...">' + (comments && comments.text ? esc(comments.text) : '') + '</textarea>';
+    html += '<div class="dr-btn-row">';
+    html += '<button class="btn btn-primary btn-sm" onclick="saveDrComment(\'' + cbu.key + '\',false)">저장</button>';
+    html += '<button class="btn btn-sm" style="background:var(--orange);color:#fff;" onclick="saveDrComment(\'' + cbu.key + '\',true)">업무지시로 전환</button>';
+    html += '<button class="btn btn-sm" style="background:var(--warn);color:#fff;" onclick="saveDrComment(\'' + cbu.key + '\',false,true)">업무종료 지시</button>';
+    html += '</div></div>';
+  }
+
   document.getElementById('drContent').innerHTML = html;
+
+  // Store issues for action handlers
+  window._drHighIssues = highIssues;
+  window._drMidIssues = midIssues;
 }
 
-function saveDrComment(bu, convertToOrder) {
+// Issue action handler
+function drAction(action, idx, level) {
+  var issues = level === 'high' ? window._drHighIssues : window._drMidIssues;
+  var iss = issues[idx];
+  if (!iss) return;
+  var buHeads = { home: ['seola'], stat: ['subin'], map: ['haeun'] };
+
+  if (action === 'approve') {
+    // Approve: team lead proceeds, notify via Telegram
+    sendTelegram('✅ <b>[승인]</b> ' + iss._buLabel + '\n' + iss.desc + '\n\n팀장 자체 진행 승인됨');
+    alert(iss._buLabel + ' 팀장에게 진행 승인됨!');
+  } else if (action === 'order') {
+    var detail = prompt('추가 지시 내용을 입력하세요:', iss.desc);
+    if (!detail) return;
+    var order = {
+      id: Date.now(), assign: buHeads[iss._bu] || [iss._bu], prio: 'urgent',
+      title: '[대표 지시] ' + iss._buLabel + ' — ' + (iss.desc || '').slice(0, 30),
+      detail: detail, status: 'pending', created: new Date().toISOString()
+    };
+    var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
+    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'urgent',
+             title: order.title, detail: detail, status: 'pending', created: order.created, updatedBy: '대표' });
+    sendTelegram('📋 <b>[업무지시 생성]</b> ' + iss._buLabel + '\n' + detail);
+    alert('업무지시가 생성되었습니다!');
+  } else if (action === 'hold') {
+    sendTelegram('⏸ <b>[보류]</b> ' + iss._buLabel + '\n' + iss.desc);
+    alert('보류 처리됨. 팀장에게 알림됨.');
+  }
+}
+
+// Member action handler
+function drMemberAction(action, name) {
+  if (action === 'done') {
+    sendTelegram('✅ <b>[업무 확인]</b> ' + name + ' 작업 완료 확인됨');
+  } else if (action === 'order') {
+    var detail = prompt(name + '에게 추가 지시:', '');
+    if (!detail) return;
+    var order = {
+      id: Date.now(), assign: [name], prio: 'normal',
+      title: '[대표→' + name + '] 추가 지시',
+      detail: detail, status: 'pending', created: new Date().toISOString()
+    };
+    var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
+    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'normal',
+             title: order.title, detail: detail, status: 'pending', created: order.created, updatedBy: '대표' });
+    sendTelegram('📋 <b>[추가지시→' + name + ']</b>\n' + detail);
+    alert(name + '에게 업무지시 생성 완료!');
+  }
+}
+
+function saveDrComment(bu, convertToOrder, markDone) {
   var text = document.getElementById('drComment_' + bu).value.trim();
-  if (!text) { alert('코멘트를 입력하세요.'); return; }
-  if (convertToOrder && !confirm('이 코멘트를 업무지시로 생성하시겠습니까?\nConvert this comment to a work order?')) return;
+  if (!text && !markDone) { alert('코멘트를 입력하세요.'); return; }
+  if (markDone) text = text || '해당 사업부 현재 업무 종료 확인';
 
   // Save locally
   var key = 'clady_daily_' + DR_CURRENT_DATE;
@@ -1316,9 +1479,9 @@ function saveDrComment(bu, convertToOrder) {
   rpt.ceoComments[bu] = { text: text, date: new Date().toLocaleString('ko-KR') };
   localStorage.setItem(key, JSON.stringify(rpt));
 
-  // If converting to order, add locally too
+  var buHeads = { home: ['seola'], stat: ['subin'], map: ['haeun'] };
+
   if (convertToOrder) {
-    var buHeads = { home: ['seola'], stat: ['subin'], map: ['haeun'] };
     var order = {
       id: Date.now(), assign: buHeads[bu] || [bu], prio: 'urgent',
       title: '[대표 지시] ' + bu.toUpperCase() + ' — ' + DR_CURRENT_DATE,
@@ -1327,13 +1490,15 @@ function saveDrComment(bu, convertToOrder) {
     var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
     gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'urgent',
              title: order.title, detail: text, status: 'pending', created: order.created, updatedBy: '대표' });
+    sendTelegram('📋 <b>[업무지시 생성]</b> ' + bu.toUpperCase() + '\n' + text);
+    alert('업무지시가 생성되었습니다!');
+  } else if (markDone) {
+    sendTelegram('🏁 <b>[업무종료]</b> ' + bu.toUpperCase() + '\n' + text);
+    alert(bu.toUpperCase() + ' 사업부 업무종료 지시 전달됨!');
   }
 
-  // Sync to Google Sheets
   gsPost({ action: 'addReportComment', date: DR_CURRENT_DATE, bu: bu, text: text, convertToOrder: convertToOrder });
-
   renderDailyReport(rpt);
-  if (convertToOrder) alert('업무지시가 생성되었습니다! Work order created.');
 }
 
 loadDailyReport();
