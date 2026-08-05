@@ -1196,12 +1196,35 @@ function esc(s){var d=document.createElement('div');d.textContent=s;return d.inn
 // --- Plan Review ---
 var PLAN_KEY='clady_plan_reviews';
 var PLANS=[
-  {id:'seola',bu:'home',buLabel:'HOME',name:'설아 SeolA',dept:'HOME 사업부 총괄',
-   items:['[즉시] M4 법적 서술 — 학폭예방법 §17 자체해결 요건 반영','[즉시] 퀴즈 버튼 disabled 처리 + ?s= 파라미터 길이 제한','[3일] 진단 3종 결과 문구 톤·구조 통일 / 퀴즈 Q3 분리','[1주] 모바일 실기기 테스트 + 접근성(a11y) 기초 점검','[1주] UX 개선 — 이수증 가치 전달, 진입 마찰 완화','[2주] 마케팅 — e알리미 메시지, 가정통신문, 교사 가이드','[2주] 전체 톤 감수 — "임상적"→"지지적/따뜻" 통일']},
-  {id:'subin',bu:'stat',buLabel:'STAT',name:'수빈 SuBin',dept:'STAT 사업부 총괄',
-   items:['[1주] 미검증 파서 5종 샘플 수집 + 테스트 코드 보강','[2주] 파서 17종 APA 7th 정합성 전수 점검','[2주] 기술문(narrative) KO/EN/中 학술 정확성 점검','[2주] 메인 앱 UX 흐름 점검 + 결제 흐름 QA','[3주] 다국어(i18n) 번역 완성도 전수 점검','[3주] 블로그 신규 3편 기획·발행 + SEO 점검']},
-  {id:'haeun',bu:'map',buLabel:'MAP',name:'하은 HaEun',dept:'MAP 사업부 총괄',
-   items:['[2주] SAFE 57파일 전수 콘텐츠 점검 + 4축 학습목표 정합성','[2주] CARE 99파일 점검 — 8영역×28상황, 학술 근거·법적 정확성','[3주] 156파일 렌더링 테스트 + 교실 프로젝션·모바일 점검','[3주] GROW 백엔드 아키텍처 설계 — Claude Sonnet API 연동','[4주] SEAT 프로토타입 코드 분석 + GA 구현 로드맵','[4주] 교사 무료체험 안내 자료 + 학교 도입 제안 패키지']}
+  // === HOME (5명: 역할당 1명) ===
+  {id:'seola',bu:'home',buLabel:'HOME',name:'설아 SeolA',dept:'콘텐츠 설계 Content Design',
+   items:['[즉시] M4 법적 서술 — 학폭예방법 §17 자체해결 요건 반영 (대표 감수 필수)','[3일] 진단 3종 결과 문구 톤·구조 통일','[3일] M4 퀴즈 Q3 복합 선택지 → 단일 개념 분리','[1주] signs 비관찰 문항 재프레이밍','[1주] 가이드 응급 프로토콜(자해·자살 징후) 추가','[2주] 전체 톤 감수 — "임상적"→"지지적/따뜻" 통일']},
+  {id:'jaewon',bu:'home',buLabel:'HOME',name:'재원 JaeWon',dept:'개발 Development',
+   items:['[즉시] 퀴즈 버튼 disabled 처리 (레이스 컨디션)','[즉시] ?s= 파라미터 길이 제한 + certCount 단일 소스 전환','[1일] 모바일 척도 버튼 2열 전환 CSS','[2일] 설문 이중 제출 방지 + Firebase 리다이렉트 정리','[1~2주] 콘텐츠 수정사항 코드 반영']},
+  {id:'harin',bu:'home',buLabel:'HOME',name:'하린 HaRin',dept:'QA 점검 Quality Assurance',
+   items:['[수정 후] 즉시 수정 5개 항목 재검증','[3일] 모바일 실기기 테스트 (iPhone SE + Galaxy A)','[1주] Firebase 기록 데이터 무결성 점검','[2주] 접근성(a11y) 기초 점검 + 인쇄 레이아웃 테스트']},
+  {id:'minseo',bu:'home',buLabel:'HOME',name:'민서 MinSeo',dept:'UX 피드백 User Experience',
+   items:['[2일] 이수증 가치 조기 전달 시안','[3일] 진입 마찰 완화 — 프라이버시 안내, 체험 버튼 개선','[1주] 프라이버시 문구 5페이지 통일안','[2주] 대시보드 모바일 반응형 개선안']},
+  {id:'jian',bu:'home',buLabel:'HOME',name:'지안 JiAn',dept:'마케팅 Marketing',
+   items:['[3일] e알리미 메시지 초안 3종','[1주] 가정통신문 A4 템플릿 + 담임교사 독려 가이드','[2주] 인스타그램 카드뉴스 기획','[3주] 학부모→교사 연계 유도 전략']},
+  // === STAT (4명: 역할당 1명) ===
+  {id:'subin',bu:'stat',buLabel:'STAT',name:'수빈 SuBin',dept:'데이터 분석 Data Analytics',
+   items:['[1주] 미검증 파서 5종 샘플 수집','[2주] 파서 17종 APA 7th 정합성 전수 점검','[2주] 기술문(narrative) KO/EN/中 학술 정확성 점검','[3주] 테스트 커버리지 확장 + 전환율 분석']},
+  {id:'soyun',bu:'stat',buLabel:'STAT',name:'소윤 SoYun',dept:'UX 점검 UX Review',
+   items:['[1주] 메인 앱 사용 흐름 + 게이팅 경계 점검','[2주] 결제 흐름 UX 점검','[2주] QnA/가이드/블로그 가독성·CTA 점검','[3주] 다국어 전환 UX + 모바일 전수 점검']},
+  {id:'hyunwoo',bu:'stat',buLabel:'STAT',name:'현우 HyunWoo',dept:'개발 Development',
+   items:['[UX 후] 점검 결과 우선순위 반영','[2주] 미검증 파서 5종 테스트 코드 보강','[2주] 결제 취소 과거 기록 보정','[3주] sitemap 갱신 + JSON-LD 메타데이터 감사']},
+  {id:'yuna',bu:'stat',buLabel:'STAT',name:'유나 YuNa',dept:'홍보 마케팅 PR & Marketing',
+   items:['[1주] 블로그 카테고리 균형 분석 + 신규 3편 기획','[1주] 검색콘솔 색인 상태 점검','[2주] 대학원생 타깃 홍보 전략','[4주] 신규 블로그 3편 작성·발행']},
+  // === MAP (4명: 역할당 1명) ===
+  {id:'haeun',bu:'map',buLabel:'MAP',name:'하은 HaEun',dept:'SAFE 콘텐츠 SAFE Content',
+   items:['[2주] SAFE 57파일 전수 콘텐츠 점검','[2주] 4축(S·A·F·E) 학습목표 정합성 확인','[3주] 교실 프로젝션 + 모바일 점검','[4주] 개선 필요 파일 → 생성기 수정 요청']},
+  {id:'jimin',bu:'map',buLabel:'MAP',name:'지민 JiMin',dept:'CARE 콘텐츠 CARE Content',
+   items:['[2주] Activity 75 + Counseling 12 + Response 11파일 점검','[3주] KCI·국제 문헌 인용 유효성 점검','[4주] GROW AI 리포트 요건 정의서 작성']},
+  {id:'woojin',bu:'map',buLabel:'MAP',name:'우진 WooJin',dept:'개발 Development',
+   items:['[1주] 156파일 렌더링 테스트 + 생성기 코드 리뷰','[2주] SEAT 프로토타입 코드 분석','[3주] GROW 백엔드 아키텍처 설계 — Claude Sonnet API 연동','[4주] SEAT GA 구현 로드맵']},
+  {id:'nayeon',bu:'map',buLabel:'MAP',name:'나연 NaYeon',dept:'홍보 마케팅 PR & Marketing',
+   items:['[1주] 교사 무료 체험 안내 자료 + 시장검증 인포그래픽','[2주] 학교 도입 제안 패키지','[2주] 교사 커뮤니티 홍보 전략','[4주] SAFE/CARE 교실 적용 사례 콘텐츠']}
 ];
 
 function getPlanReviews(){try{return JSON.parse(localStorage.getItem(PLAN_KEY))||{};}catch(e){return {};}}
@@ -1368,8 +1391,7 @@ var SCH_DATA = []; // server schedule data
 var CAL_PERSON_FILTER = 'all';
 
 var TEAM_MEMBERS = [
-  {id:'대표',name:'대표'},{id:'CTO',name:'CTO'},
-  {id:'seola',name:'설아 (HOME)'},{id:'subin',name:'수빈 (STAT)'},{id:'haeun',name:'하은 (MAP)'}
+  {id:'대표',name:'대표'},{id:'CTO',name:'CTO'}
 ];
 
 // 팀원 select 옵션 동적 생성
