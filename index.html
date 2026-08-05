@@ -256,6 +256,16 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .dr-member-row .m-status.done{background:rgba(81,207,102,.15);color:var(--green);}
 .dr-member-row .m-status.progress{background:rgba(255,169,77,.15);color:var(--orange);}
 .dr-member-row .m-actions{display:flex;gap:4px;flex-shrink:0;}
+/* Expandable BU detail */
+.dr-sum-card{cursor:pointer;transition:all .2s;}
+.dr-sum-card:hover{border-color:var(--accent);}
+.dr-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:.75rem;color:var(--dim);line-height:1.6;}
+.dr-detail.open{display:block;}
+.dr-detail .detail-section{margin-bottom:8px;}
+.dr-detail .detail-label{font-weight:700;color:var(--text);font-size:.72rem;margin-bottom:4px;}
+.dr-detail li{margin-left:12px;list-style:disc;margin-bottom:2px;}
+.dr-detail .detail-file{font-size:.68rem;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);display:inline-block;margin:1px 2px;}
+.dr-expand-hint{font-size:.6rem;color:var(--dim);margin-top:4px;text-align:right;}
 
 /* Comment box */
 .dr-comment-box{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:12px;border:1px solid var(--border);}
@@ -1186,50 +1196,12 @@ function esc(s){var d=document.createElement('div');d.textContent=s;return d.inn
 // --- Plan Review ---
 var PLAN_KEY='clady_plan_reviews';
 var PLANS=[
-  {id:'seola',bu:'home',buLabel:'HOME',name:'설아 SeolA',dept:'콘텐츠 설계 Content Design',
-   items:['[즉시] M4 법적 서술 — 학폭예방법 §17 자체해결 요건 반영 (대표 감수 필수)','[3일] 진단 3종 결과 문구 톤·구조 통일','[3일] M4 퀴즈 Q3 복합 선택지 → 단일 개념 분리','[1주] signs 비관찰 문항("이유를 얼버무린다") 재프레이밍','[1주] 가이드 응급 프로토콜(자해·자살 징후) 추가','[2주] 전체 톤 감수 — "임상적"→"지지적/따뜻" 통일']},
-  {id:'jaewon',bu:'home',buLabel:'HOME',name:'재원 JaeWon',dept:'개발 실행 Development',
-   items:['[즉시] 퀴즈 버튼 disabled 처리 (m1~m5 레이스 컨디션)','[즉시] ?s= 파라미터 길이 제한 (>20자 차단)','[즉시] certCount 단일 소스 전환 (Math.max 제거)','[1일] 모바일 척도 버튼 2열 전환 CSS (5페이지)','[2일] 설문 이중 제출 방지 + Firebase 이중 리다이렉트 정리','[3일] classNo 통일, icons.js 로드순서, crypto.randomUUID 폴백','[1~2주] 설아 팀 콘텐츠 수정사항 코드 반영']},
-  {id:'harin',bu:'home',buLabel:'HOME',name:'하린 HaRin',dept:'QA 점검 Quality Assurance',
-   items:['[수정 후] 즉시 수정 5개 항목 재검증','[3일] 모바일 실기기 테스트 (iPhone SE 375px + Galaxy A)','[1주] Firebase 기록 데이터 무결성 점검','[1주] 엣지케이스 확장 (오프라인, 탭 전환, 백버튼)','[2주] 접근성(a11y) 기초 점검 — aria-label, role, 키보드','[2주] 인쇄 레이아웃 테스트 — 대시보드 페이지 구분·잘림']},
-  {id:'minseo',bu:'home',buLabel:'HOME',name:'민서 MinSeo',dept:'UX 피드백 User Experience',
-   items:['[2일] 이수증 가치 조기 전달 시안 — "학교 인정 이수증" 명시','[3일] 진입 마찰 완화 — 프라이버시 안내 위치 이동, 체험 버튼 개선','[3일] 마음맞히기 저장 버튼 설계 — 핸드오버 전 데이터 소실 방지','[1주] 프라이버시 문구 5페이지 통일안','[1주] main.html 영웅 메시지 + 카드 재정렬','[2주] 대시보드 모바일 반응형 개선안']},
-  {id:'jian',bu:'home',buLabel:'HOME',name:'지안 JiAn',dept:'마케팅 전략 Marketing',
-   items:['[3일] e알리미 메시지 초안 3종 (짧은/보통/상세)','[1주] 가정통신문 A4 템플릿 — 담임교사 즉시 사용 가능','[1주] 담임교사 독려 가이드 — "학부모 참여율 높이는 법"','[2주] 사회적 증거 장치 설계 (Best5, 이수현황 배너)','[2주] 인스타그램 카드뉴스 3~5매 기획','[3주] 학부모→교사 연계 유도 전략']},
-  {id:'doyun',bu:'home',buLabel:'HOME',name:'도윤 DoYun',dept:'학교 대시보드 Dashboard',
-   items:['[즉시] certCount 데이터 소스 단일화 사양서','[2일] 퍼널 전환율 정합성 검증 — 상류/하류 불일치 분석','[3일] 반 정렬 숫자순 전환 로직 사양','[1주] 인사이트 7종 재검수 — "이수자 없음" 케이스 추가','[1주] 인쇄 CSS + CSV 후처리 개선 사양','[2~3주] 교사 역할 접근 스터브 설계']},
-  {id:'subin',bu:'stat',buLabel:'STAT',name:'수빈 SuBin',dept:'데이터 분석 Data Analytics',
-   items:['[1주] 미검증 파서 5종 샘플 수집 (AMOS, descriptive, reliability, logistic, PROCESS)','[2주] 파서 17종 APA 7th 정합성 전수 점검','[2주] 기술문(narrative) KO/EN/中 학술 정확성 점검','[3주] check_samples.mjs 테스트 커버리지 확장','[3주] 가입→체험→결제 전환율 기초 분석']},
-  {id:'soyun',bu:'stat',buLabel:'STAT',name:'소윤 SoYun',dept:'UX 점검 UX Review',
-   items:['[1주] 메인 앱 사용 흐름 점검 — 붙여넣기→분석→결과→복사','[1주] 무료/유료 게이팅 경계 점검','[2주] 결제 흐름 UX — 가입→체험→결제→만료','[2주] QnA/가이드/블로그 가독성·CTA 점검','[3주] 다국어 전환 UX (KO/EN/中) 레이아웃 점검','[3주] 모바일 전수 점검 — 터치 타깃, 가독성']},
-  {id:'hyunwoo',bu:'stat',buLabel:'STAT',name:'현우 HyunWoo',dept:'개발 실행 Development',
-   items:['[UX 후] 소윤/시우 점검 결과 우선순위 반영','[2주] 미검증 파서 5종 테스트 코드 보강','[2주] 결제 취소 과거 기록 status 필드 보정','[3주] 블로그 신규 발행 시 sitemap 갱신 절차 문서화','[3주] JSON-LD 17개 도구 + 블로그 9편 메타데이터 감사']},
-  {id:'yuna',bu:'stat',buLabel:'STAT',name:'유나 YuNa',dept:'홍보 마케팅 PR & Marketing',
-   items:['[2일] 블로그 카테고리 균형 분석 (prep/scale/group/relation)','[1주] 신규 블로그 3편 기획 (paired t-test, ANCOVA, Cohen\'s d)','[1주] 검색콘솔 45개 URL 색인 상태 점검','[2주] 대학원생 타깃 홍보 전략 (에브리타임, 학술 커뮤니티)','[2주] QnA 페이지 CTA 최적화','[4주] 신규 블로그 3편 작성·발행']},
-  {id:'haeun',bu:'map',buLabel:'MAP',name:'하은 HaEun',dept:'SAFE 콘텐츠 SAFE Content',
-   items:['[2주] SAFE 57파일 전수 콘텐츠 점검 — 시나리오·연령 적절성·톤','[2주] 4축(S·A·F·E) 학습목표 정합성 확인','[3주] 교실 프로젝션 가독성 점검 (16-24px+, 고대비)','[3주] 모바일(학생 기기) 터치·인터랙션 점검','[4주] 개선 필요 파일 목록 → 생성기(gen_safe.pl) 수정 요청']},
-  {id:'jimin',bu:'map',buLabel:'MAP',name:'지민 JiMin',dept:'CARE 콘텐츠 CARE Content',
-   items:['[3주] Activity 75파일 점검 — 8영역×28상황, 학술 근거','[2주] Counseling 12파일 — 상담 기법 정확성, 실행 가능성','[2주] Response 11파일 — 대응 매뉴얼 법적 정확성','[3주] KCI·국제 문헌 인용 유효성 점검','[4주] GROW AI 리포트 요건 정의서 작성','[4주] 또래지명 결과 프레이밍 가이드라인']},
-  {id:'woojin',bu:'map',buLabel:'MAP',name:'우진 WooJin',dept:'개발 실행 Development',
-   items:['[1주] 156파일 렌더링 테스트 — 깨진 링크, CSS 일관성','[1주] 생성기 코드 리뷰 (gen_safe.pl, gen_A.pl, transform.pl)','[2주] SEAT 프로토타입 코드 분석 — spec v3 대비 구현 상태','[3주] GROW 백엔드 아키텍처 설계 — Claude Sonnet API 연동','[4주~] 하은/지민 점검 결과 반영 → 생성기 수정','[4주] SEAT GA 구현 로드맵']},
-  {id:'nayeon',bu:'map',buLabel:'MAP',name:'나연 NaYeon',dept:'홍보 마케팅 PR & Marketing',
-   items:['[1주] 교사 대상 무료 체험 안내 자료 (1페이지 PDF)','[1주] 시장검증 결과 인포그래픽 (교사 82.7%, 학부모 81.4%)','[2주] 학교 도입 제안 패키지 (교감/교장 대상 2~3장)','[2주] 교사 커뮤니티 홍보 전략 (인디스쿨 등)','[3주] HOME→MAP 연계 유도 전략','[4주] SAFE/CARE 교실 적용 사례 콘텐츠 3편']},
-  {id:'yerin',bu:'home',buLabel:'HOME',name:'예린 YeRin',dept:'콘텐츠 설계 Content Design (신규)',
-   items:['[즉시] 설아 팀장과 업무 분담 확인 — 진단 3종 결과 문구 담당','[3일] signs/social/mind 결과 문구 톤 분석 및 통일안 초안','[1주] 가이드 페이지 어조 점검 — "~하지 않기" 규범적 문구 → 지지적 톤 전환','[2주] 전체 콘텐츠 따뜻함/지지적 톤 2차 감수 보조']},
-  {id:'seungho',bu:'home',buLabel:'HOME',name:'승호 SeungHo',dept:'개발 실행 Development (신규)',
-   items:['[즉시] 재원 팀장과 업무 분담 — 즉시 수정 5건 중 3건 담당','[즉시] 모바일 척도 버튼 2열 전환 CSS 수정 (5페이지)','[2일] 설문 이중 제출 방지 + Firebase 이중 리다이렉트 정리','[3일] classNo 통일, icons.js 로드순서, crypto.randomUUID 폴백','[1주] 인쇄 CSS 개선 — 대시보드 페이지 구분 최적화']},
-  {id:'yunha',bu:'stat',buLabel:'STAT',name:'윤하 YunHa',dept:'QA 점검 Quality Assurance (신설)',
-   items:['[1주] STAT QA 점검 기준 수립 — 파서/결제/다국어 테스트 시나리오 설계','[1주] 파서 17종 정상 입력 기능 테스트 1차 실행','[2주] 결제 흐름 QA — 가입→체험→결제→만료→취소 전 경로','[2주] 비정상 입력(빈 값, 초대형 데이터, 잘린 출력) 엣지케이스 테스트','[3주] 다국어 전환 시 레이아웃 깨짐/번역 누락 전수 점검','[3주] 모바일 375px 전 도구 동작 확인']},
-  {id:'rin',bu:'stat',buLabel:'STAT',name:'린 Rin',dept:'데이터 분석 Data Analytics (다국어 QC)',
-   items:['[1주] i18n.js 117+키 KO/EN/中 번역 완성도 전수 점검','[1주] 학술 용어 번역 정확성 — 통계 전문 용어(KO↔EN↔中) 대조표 작성','[2주] QnA 14페이지 다국어 버전 번역 품질 점검','[2주] 블로그 9편 영문/중문 메타데이터(title, description) 확인','[3주] 파서 build/narrative 다국어 출력 학술체 정확성 교차 검증']},
-  {id:'seongmin',bu:'map',buLabel:'MAP',name:'성민 SeongMin',dept:'QA 점검 Quality Assurance (신설)',
-   items:['[1주] MAP QA 점검 기준 수립 — SAFE/CARE/SEAT 테스트 시나리오 설계','[2주] SAFE 57파일 렌더링 전수 테스트 — 깨진 링크/이미지/CSS 확인','[2주] CARE 99파일 렌더링 전수 테스트 — 인터랙션 동작 확인','[3주] 교실 프로젝션 모드 테스트 — 큰 화면 가독성, 교사 진행 편의성','[3주] 모바일(학생 기기) 테스트 — 터치 타깃, 저사양 호환성','[4주] SEAT 프로토타입 입력→출력 기능 테스트 (spec v3 기준)']},
-  {id:'junseo',bu:'map',buLabel:'MAP',name:'준서 JunSeo',dept:'개발 실행 Development (GROW 전담)',
-   items:['[1주] GROW 기존 자산 분석 — grow.svg 외 설계 의도 파악, 요건 목록화','[2주] GROW 백엔드 아키텍처 설계 — 입력(진단 데이터)→처리(Claude Sonnet)→출력(리포트) 스키마','[3주] Claude Sonnet API 연동 프로토타입 — 프롬프트 설계, 토큰 비용 추정','[4주] AI 리포트 생성 MVP — 샘플 학급 데이터 기반 첫 리포트 출력','[4주~] 지민/다은 CARE팀과 협업 — 리포트 품질 검증 기준 합의']},
-  {id:'sua',bu:'cross',buLabel:'CROSS',name:'수아 SuA',dept:'법률/컴플라이언스 Legal & Compliance',
-   items:['[즉시] HOME M4 학폭예방법 §17 자체해결 요건 법적 검증','[1주] 전 사업부 금지 문자열(특허번호, projectId, 와이즈랩) 전수 스캔','[1주] 개인정보보호 문구 5페이지 통일안 법적 검토','[2주] MAP CARE 대응 매뉴얼 11파일 법적 절차 정확성 검증','[2주] SEAT 특허 관련 대외 노출 방지 모니터링 체계 수립','[3주] 이용약관·동의서 법적 유효성 전수 검토']},
-  {id:'hayul',bu:'cross',buLabel:'CROSS',name:'하율 HaYul',dept:'통합 브랜딩 Integrated Branding',
-   items:['[1주] 회사 홈페이지 4개 버전 현황 분석 → canonical 버전 확정 제안','[1주] 클래즈 브랜드 컬러·폰트·톤 가이드라인 초안','[2주] HOME↔MAP 학부모-교사 연계 유도 전략 설계','[2주] 전 사업부(HOME/STAT/MAP) 시각적 통일감 점검 보고서','[3주] SNS·블로그 크로스 프로모션 기획 — 3개 BU 시너지 전략','[4주] 통합 랜딩 페이지 설계안 (claz.kr 메인)']}
+  {id:'seola',bu:'home',buLabel:'HOME',name:'설아 SeolA',dept:'HOME 사업부 총괄',
+   items:['[즉시] M4 법적 서술 — 학폭예방법 §17 자체해결 요건 반영','[즉시] 퀴즈 버튼 disabled 처리 + ?s= 파라미터 길이 제한','[3일] 진단 3종 결과 문구 톤·구조 통일 / 퀴즈 Q3 분리','[1주] 모바일 실기기 테스트 + 접근성(a11y) 기초 점검','[1주] UX 개선 — 이수증 가치 전달, 진입 마찰 완화','[2주] 마케팅 — e알리미 메시지, 가정통신문, 교사 가이드','[2주] 전체 톤 감수 — "임상적"→"지지적/따뜻" 통일']},
+  {id:'subin',bu:'stat',buLabel:'STAT',name:'수빈 SuBin',dept:'STAT 사업부 총괄',
+   items:['[1주] 미검증 파서 5종 샘플 수집 + 테스트 코드 보강','[2주] 파서 17종 APA 7th 정합성 전수 점검','[2주] 기술문(narrative) KO/EN/中 학술 정확성 점검','[2주] 메인 앱 UX 흐름 점검 + 결제 흐름 QA','[3주] 다국어(i18n) 번역 완성도 전수 점검','[3주] 블로그 신규 3편 기획·발행 + SEO 점검']},
+  {id:'haeun',bu:'map',buLabel:'MAP',name:'하은 HaEun',dept:'MAP 사업부 총괄',
+   items:['[2주] SAFE 57파일 전수 콘텐츠 점검 + 4축 학습목표 정합성','[2주] CARE 99파일 점검 — 8영역×28상황, 학술 근거·법적 정확성','[3주] 156파일 렌더링 테스트 + 교실 프로젝션·모바일 점검','[3주] GROW 백엔드 아키텍처 설계 — Claude Sonnet API 연동','[4주] SEAT 프로토타입 코드 분석 + GA 구현 로드맵','[4주] 교사 무료체험 안내 자료 + 학교 도입 제안 패키지']}
 ];
 
 function getPlanReviews(){try{return JSON.parse(localStorage.getItem(PLAN_KEY))||{};}catch(e){return {};}}
@@ -1397,13 +1369,7 @@ var CAL_PERSON_FILTER = 'all';
 
 var TEAM_MEMBERS = [
   {id:'대표',name:'대표'},{id:'CTO',name:'CTO'},
-  {id:'seola',name:'설아'},{id:'jaewon',name:'재원'},{id:'harin',name:'하린'},
-  {id:'minseo',name:'민서'},{id:'jian',name:'지안'},{id:'doyun',name:'도윤'},
-  {id:'subin',name:'수빈'},{id:'soyun',name:'소윤'},{id:'hyunwoo',name:'현우'},{id:'yuna',name:'유나'},
-  {id:'haeun',name:'하은'},{id:'jimin',name:'지민'},{id:'woojin',name:'우진'},{id:'nayeon',name:'나연'},
-  {id:'yerin',name:'예린'},{id:'seungho',name:'승호'},{id:'yunha',name:'윤하'},{id:'rin',name:'린'},
-  {id:'seongmin',name:'성민'},{id:'junseo',name:'준서'},{id:'sua',name:'수아'},{id:'hayul',name:'하율'},
-  {id:'eunseo',name:'은서'},{id:'daeun',name:'다은'},{id:'siwoo',name:'시우'}
+  {id:'seola',name:'설아 (HOME)'},{id:'subin',name:'수빈 (STAT)'},{id:'haeun',name:'하은 (MAP)'}
 ];
 
 // 팀원 select 옵션 동적 생성
@@ -1820,10 +1786,48 @@ function renderDailyReport(rpt) {
     var bd = bus[s].data || {};
     var ic = bd.issuesFound || 0;
     var barClass = ic === 0 ? 'green' : (ic <= 2 ? 'orange' : 'red');
-    html += '<div class="dr-sum-card"><div class="dr-bu-label">' + bus[s].label + '</div>';
+    html += '<div class="dr-sum-card" onclick="toggleBuDetail(\'' + bus[s].key + '\')">';
+    html += '<div class="dr-bu-label">' + bus[s].label + '</div>';
     html += '<div class="dr-nums"><div><div class="dr-n accent">' + (bd.filesChecked || 0) + '</div><div class="dr-l">파일 점검</div></div>';
     html += '<div><div class="dr-n ' + (ic > 0 ? 'warn' : 'green') + '">' + ic + '</div><div class="dr-l">이슈</div></div></div>';
     html += '<div style="font-size:.7rem;color:var(--dim);margin-top:4px;">' + esc(bd.summary || '--') + '</div>';
+    html += '<div class="dr-expand-hint" id="drHint_' + bus[s].key + '">클릭하여 상세 보기 ▼</div>';
+    // 상세 패널
+    html += '<div class="dr-detail" id="drDetail_' + bus[s].key + '">';
+    // 발견 사항
+    if (bd.findings && bd.findings.length) {
+      html += '<div class="detail-section"><div class="detail-label">발견 사항</div><ul>';
+      for (var fi = 0; fi < bd.findings.length; fi++) {
+        html += '<li>' + esc(bd.findings[fi]) + '</li>';
+      }
+      html += '</ul></div>';
+    }
+    // 이슈 상세
+    if (bd.issues && bd.issues.length) {
+      html += '<div class="detail-section"><div class="detail-label">이슈 상세</div>';
+      for (var ii = 0; ii < bd.issues.length; ii++) {
+        var iss = bd.issues[ii];
+        var sevColor = iss.severity === 'high' ? 'var(--warn)' : (iss.severity === 'medium' ? 'var(--orange)' : 'var(--dim)');
+        html += '<div style="padding:4px 0;"><span style="color:' + sevColor + ';font-weight:700;font-size:.7rem;">[' + (iss.severity||'').toUpperCase() + ']</span> ' + esc(iss.desc) + '</div>';
+      }
+      html += '</div>';
+    }
+    // 팀원 작업
+    if (bd.memberWork && bd.memberWork.length) {
+      html += '<div class="detail-section"><div class="detail-label">작업 내역</div>';
+      for (var mi2 = 0; mi2 < bd.memberWork.length; mi2++) {
+        var mw2 = bd.memberWork[mi2];
+        var stColor = mw2.status === 'done' ? 'var(--green)' : 'var(--orange)';
+        var stText = mw2.status === 'done' ? '완료' : '진행중';
+        html += '<div style="padding:3px 0;display:flex;align-items:center;gap:6px;">';
+        html += '<span style="font-weight:600;min-width:40px;">' + esc(mw2.name) + '</span>';
+        html += '<span style="flex:1;">' + esc(mw2.task) + '</span>';
+        html += '<span style="font-size:.65rem;padding:1px 6px;border-radius:4px;color:' + stColor + ';background:rgba(255,255,255,.06);">' + stText + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>'; // dr-detail
     html += '<div class="dr-bar ' + barClass + '"></div></div>';
   }
   html += '</div>';
@@ -1930,6 +1934,16 @@ function renderDailyReport(rpt) {
   // Store issues for action handlers
   window._drHighIssues = highIssues;
   window._drMidIssues = midIssues;
+}
+
+// BU 상세 보기 토글
+function toggleBuDetail(buKey) {
+  var detail = document.getElementById('drDetail_' + buKey);
+  var hint = document.getElementById('drHint_' + buKey);
+  if (!detail) return;
+  var isOpen = detail.classList.contains('open');
+  detail.classList.toggle('open');
+  if (hint) hint.textContent = isOpen ? '클릭하여 상세 보기 ▼' : '접기 ▲';
 }
 
 // Issue action handler
