@@ -323,6 +323,28 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .cal-upcoming{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
 .cal-upcoming h4{font-size:.8rem;color:var(--dim);font-weight:600;margin-bottom:8px;}
 
+/* Schedule Form */
+.sch-form{background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--border);margin-bottom:16px;}
+.sch-form h4{font-size:.85rem;font-weight:700;margin-bottom:12px;}
+.sch-row{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.sch-row input,.sch-row select,.sch-row textarea{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:.8rem;outline:none;}
+.sch-row input:focus,.sch-row select:focus,.sch-row textarea:focus{border-color:var(--accent);}
+.sch-row input[type="date"]{min-width:140px;}
+.sch-row select{min-width:100px;}
+.sch-row textarea{width:100%;min-height:36px;resize:vertical;font-family:inherit;}
+.sch-row .sch-title{flex:1;min-width:150px;}
+.sch-actions{display:flex;gap:8px;margin-top:4px;}
+.sch-actions button{padding:8px 16px;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;}
+.sch-actions .sch-save{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+.sch-actions .sch-cancel{background:var(--card-hover);color:var(--dim);border:1px solid var(--border);}
+.cal-person{font-size:.6rem;padding:1px 6px;border-radius:4px;font-weight:600;flex-shrink:0;background:rgba(79,140,255,.12);color:var(--accent);}
+.cal-ev-item .ev-actions{display:flex;gap:4px;flex-shrink:0;}
+.cal-ev-item .ev-actions button{background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--dim);padding:2px 4px;}
+.cal-ev-item .ev-actions button:hover{color:var(--text);}
+.cal-person-filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;}
+.cal-person-filter button{padding:4px 10px;border-radius:12px;border:1px solid var(--border);background:none;color:var(--dim);font-size:.68rem;cursor:pointer;}
+.cal-person-filter button.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
 @media(max-width:640px){
   .container{padding:10px;}
   .bu-grid,.member-grid,.review-grid{grid-template-columns:1fr;}
@@ -355,6 +377,12 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
   .cal-day{min-height:40px;}
   .cal-day .d-num{font-size:.65rem;}
   .cal-dot{width:5px;height:5px;}
+  .sch-form{padding:12px 14px;}
+  .sch-row{flex-direction:column;}
+  .sch-row input,.sch-row select{width:100%;}
+  .sch-actions{flex-direction:column;}
+  .cal-person-filter{gap:3px;}
+  .cal-person-filter button{font-size:.6rem;padding:3px 8px;}
   .dr-header{flex-direction:column;align-items:flex-start;}
   .report-card{padding:14px;}
   .opinion-box{padding:10px 12px;font-size:.75rem;}
@@ -841,6 +869,43 @@ function checkAuth(){
 
   <!-- ===== CALENDAR ===== -->
   <div class="tab-panel" id="tab-calendar">
+    <!-- 일정 입력 폼 -->
+    <div class="sch-form" id="schForm">
+      <h4 id="schFormTitle">일정 등록</h4>
+      <input type="hidden" id="schEditId" value="">
+      <div class="sch-row">
+        <input type="date" id="schDate" value="">
+        <select id="schType">
+          <option value="일정">일정</option>
+          <option value="휴가">휴가</option>
+          <option value="출장">출장</option>
+          <option value="회의">회의</option>
+          <option value="마감">마감</option>
+          <option value="교육">교육</option>
+        </select>
+        <select id="schPerson">
+          <option value="">등록자 선택</option>
+          <option value="대표">대표</option>
+          <option value="CTO">CTO</option>
+        </select>
+        <input type="text" id="schTitle" class="sch-title" placeholder="일정 제목">
+      </div>
+      <div class="sch-row">
+        <textarea id="schMemo" placeholder="메모 (선택사항)" rows="1"></textarea>
+      </div>
+      <div class="sch-actions">
+        <button class="sch-save" onclick="saveScheduleEvent()">등록</button>
+        <button class="sch-cancel" onclick="clearSchForm()">초기화</button>
+      </div>
+    </div>
+
+    <!-- 팀원 필터 -->
+    <div class="cal-events" style="padding:12px 20px;">
+      <div class="cal-person-filter" id="calPersonFilter">
+        <button class="active" onclick="filterCalPerson('all',this)">전체</button>
+      </div>
+    </div>
+
     <div class="cal-card">
       <div class="cal-header">
         <h3>회사 일정 Company Calendar</h3>
@@ -1322,11 +1387,35 @@ renderPlans();
 
 renderOrders();
 
-// --- Calendar ---
+// --- Calendar & Schedule ---
 var CAL_YEAR = new Date().getFullYear();
 var CAL_MONTH = new Date().getMonth();
 var CAL_SELECTED = null;
 var CAL_EVENTS = [];
+var SCH_DATA = []; // server schedule data
+var CAL_PERSON_FILTER = 'all';
+
+var TEAM_MEMBERS = [
+  {id:'대표',name:'대표'},{id:'CTO',name:'CTO'},
+  {id:'seola',name:'설아'},{id:'jaewon',name:'재원'},{id:'harin',name:'하린'},
+  {id:'minseo',name:'민서'},{id:'jian',name:'지안'},{id:'doyun',name:'도윤'},
+  {id:'subin',name:'수빈'},{id:'soyun',name:'소윤'},{id:'hyunwoo',name:'현우'},{id:'yuna',name:'유나'},
+  {id:'haeun',name:'하은'},{id:'jimin',name:'지민'},{id:'woojin',name:'우진'},{id:'nayeon',name:'나연'},
+  {id:'yerin',name:'예린'},{id:'seungho',name:'승호'},{id:'yunha',name:'윤하'},{id:'rin',name:'린'},
+  {id:'seongmin',name:'성민'},{id:'junseo',name:'준서'},{id:'sua',name:'수아'},{id:'hayul',name:'하율'},
+  {id:'eunseo',name:'은서'},{id:'daeun',name:'다은'},{id:'siwoo',name:'시우'}
+];
+
+// 팀원 select 옵션 동적 생성
+(function(){
+  var sel = document.getElementById('schPerson');
+  TEAM_MEMBERS.forEach(function(m) {
+    if (m.id === '대표' || m.id === 'CTO') return; // already in HTML
+    var o = document.createElement('option');
+    o.value = m.id; o.textContent = m.name + ' ' + m.id;
+    sel.appendChild(o);
+  });
+})();
 
 // 2026 한국 공휴일 (고정)
 var KR_HOLIDAYS = [
@@ -1343,24 +1432,59 @@ var KR_HOLIDAYS = [
   {date:'2026-12-25',type:'holiday',title:'성탄절'}
 ];
 
-// 회사 주요 일정
 var COMPANY_EVENTS = [
   {date:'2026-03-01',type:'event',title:'무료 체험 기간 시작'},
   {date:'2026-08-31',type:'deadline',title:'무료 체험 기간 종료'}
 ];
 
+// 타입 → CSS 클래스 매핑
+function schTypeCls(t) {
+  var m = {'휴가':'vacation','공휴일':'holiday','holiday':'holiday','일정':'event','event':'event',
+           '마감':'deadline','deadline':'deadline','출장':'vacation','회의':'event','교육':'event'};
+  return m[t] || 'event';
+}
+
 function loadSchedule() {
-  // 공휴일 + 회사 일정은 항상 포함
   CAL_EVENTS = KR_HOLIDAYS.concat(COMPANY_EVENTS);
-  if (!SCRIPT_URL) { renderCalendar(); return; }
+  if (!SCRIPT_URL) { buildPersonFilter(); renderCalendar(); return; }
   fetch(SCRIPT_URL + '?action=getSchedule')
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (Array.isArray(data)) {
+        SCH_DATA = data;
+        data.forEach(function(ev) { ev.type = ev.type || '일정'; });
         CAL_EVENTS = CAL_EVENTS.concat(data);
       }
+      buildPersonFilter();
       renderCalendar();
-    }).catch(function() { renderCalendar(); });
+    }).catch(function() { buildPersonFilter(); renderCalendar(); });
+}
+
+function buildPersonFilter() {
+  var persons = {};
+  SCH_DATA.forEach(function(ev) { if (ev.person) persons[ev.person] = true; });
+  var el = document.getElementById('calPersonFilter');
+  var html = '<button class="' + (CAL_PERSON_FILTER==='all'?'active':'') + '" onclick="filterCalPerson(\'all\',this)">전체</button>';
+  var personList = Object.keys(persons).sort();
+  personList.forEach(function(p) {
+    var label = p;
+    TEAM_MEMBERS.forEach(function(m) { if (m.id === p) label = m.name; });
+    html += '<button class="' + (CAL_PERSON_FILTER===p?'active':'') + '" onclick="filterCalPerson(\'' + p + '\',this)">' + esc(label) + '</button>';
+  });
+  el.innerHTML = html;
+}
+
+function filterCalPerson(p) {
+  CAL_PERSON_FILTER = p;
+  // rebuild events with filter
+  CAL_EVENTS = KR_HOLIDAYS.concat(COMPANY_EVENTS);
+  var filtered = SCH_DATA;
+  if (p !== 'all') {
+    filtered = SCH_DATA.filter(function(ev) { return ev.person === p; });
+  }
+  CAL_EVENTS = CAL_EVENTS.concat(filtered);
+  buildPersonFilter();
+  renderCalendar();
 }
 
 function renderCalendar() {
@@ -1377,7 +1501,6 @@ function renderCalendar() {
   var today = new Date();
   var todayStr = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
 
-  // Empty cells before 1st
   for (var e = 0; e < startDay; e++) {
     html += '<div class="cal-day empty"></div>';
   }
@@ -1400,7 +1523,7 @@ function renderCalendar() {
     if (dayEvents.length) {
       html += '<div class="cal-dots">';
       var types = {};
-      dayEvents.forEach(function(ev) { types[ev.type] = true; });
+      dayEvents.forEach(function(ev) { types[schTypeCls(ev.type)] = true; });
       for (var t in types) { html += '<div class="cal-dot ' + t + '"></div>'; }
       html += '</div>';
     }
@@ -1408,17 +1531,15 @@ function renderCalendar() {
   }
 
   grid.innerHTML = html;
-
   var monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   document.getElementById('calMonth').textContent = CAL_YEAR + '년 ' + monthNames[CAL_MONTH];
-
-  // 선택된 날짜 or 오늘 일정 표시
   showDayEvents(CAL_SELECTED || todayStr);
   showUpcoming();
 }
 
 function selectDay(dateStr) {
   CAL_SELECTED = dateStr;
+  document.getElementById('schDate').value = dateStr;
   renderCalendar();
 }
 
@@ -1438,6 +1559,13 @@ function goToday() {
   renderCalendar();
 }
 
+function getPersonName(id) {
+  for (var i = 0; i < TEAM_MEMBERS.length; i++) {
+    if (TEAM_MEMBERS[i].id === id) return TEAM_MEMBERS[i].name;
+  }
+  return id;
+}
+
 function showDayEvents(dateStr) {
   var evs = CAL_EVENTS.filter(function(ev) { return ev.date === dateStr; });
   var el = document.getElementById('calEvList');
@@ -1450,13 +1578,22 @@ function showDayEvents(dateStr) {
     el.innerHTML = '<div style="color:var(--dim);font-size:.8rem;padding:8px 0;">이 날짜에 일정이 없습니다.</div>';
     return;
   }
-  var typeKo = {holiday:'공휴일',vacation:'휴가',event:'일정',deadline:'마감'};
   var html = '';
   evs.forEach(function(ev) {
     html += '<div class="cal-ev-item">';
-    html += '<span class="cal-ev-type ' + ev.type + '">' + (typeKo[ev.type] || ev.type) + '</span>';
-    html += '<span class="cal-ev-title">' + esc(ev.title) + '</span>';
+    html += '<span class="cal-ev-type ' + schTypeCls(ev.type) + '">' + esc(ev.type) + '</span>';
+    if (ev.person) html += '<span class="cal-person">' + esc(getPersonName(ev.person)) + '</span>';
+    html += '<span class="cal-ev-title">' + esc(ev.title);
+    if (ev.memo) html += ' <span style="color:var(--dim);font-size:.7rem;">(' + esc(ev.memo) + ')</span>';
+    html += '</span>';
     if (ev.approved === 'O') html += '<span class="cal-ev-badge">승인</span>';
+    // 수정/삭제 버튼 (서버 데이터만)
+    if (ev.id) {
+      html += '<span class="ev-actions">';
+      html += '<button onclick="editSchEvent(' + ev.id + ')" title="수정">&#9998;</button>';
+      html += '<button onclick="deleteSchEvent(' + ev.id + ')" title="삭제">&#10005;</button>';
+      html += '</span>';
+    }
     html += '</div>';
   });
   el.innerHTML = html;
@@ -1469,24 +1606,100 @@ function showUpcoming() {
   var upcoming = CAL_EVENTS.filter(function(ev) {
     var d = new Date(ev.date + 'T00:00:00');
     return d >= today;
-  }).sort(function(a,b) { return a.date.localeCompare(b.date); }).slice(0, 5);
+  }).sort(function(a,b) { return a.date.localeCompare(b.date); }).slice(0, 8);
 
   if (!upcoming.length) { el.innerHTML = ''; return; }
-  var typeKo = {holiday:'공휴일',vacation:'휴가',event:'일정',deadline:'마감'};
   var html = '<h4>다가오는 일정</h4>';
   upcoming.forEach(function(ev) {
     var d = new Date(ev.date + 'T00:00:00');
     var diff = Math.ceil((d - today) / 86400000);
     var diffText = diff === 0 ? '오늘' : diff === 1 ? '내일' : diff + '일 후';
     html += '<div class="cal-ev-item">';
-    html += '<span class="cal-ev-type ' + ev.type + '">' + (typeKo[ev.type] || ev.type) + '</span>';
+    html += '<span class="cal-ev-type ' + schTypeCls(ev.type) + '">' + esc(ev.type) + '</span>';
     html += '<span class="cal-ev-date">' + (d.getMonth()+1) + '/' + d.getDate() + '</span>';
+    if (ev.person) html += '<span class="cal-person">' + esc(getPersonName(ev.person)) + '</span>';
     html += '<span class="cal-ev-title">' + esc(ev.title) + '</span>';
     html += '<span style="font-size:.65rem;color:var(--dim);">' + diffText + '</span>';
     html += '</div>';
   });
   el.innerHTML = html;
 }
+
+// --- Schedule CRUD ---
+function saveScheduleEvent() {
+  var id = document.getElementById('schEditId').value;
+  var date = document.getElementById('schDate').value;
+  var type = document.getElementById('schType').value;
+  var person = document.getElementById('schPerson').value;
+  var title = document.getElementById('schTitle').value.trim();
+  var memo = document.getElementById('schMemo').value.trim();
+
+  if (!date) { alert('날짜를 선택해주세요.'); return; }
+  if (!title) { alert('일정 제목을 입력해주세요.'); return; }
+  if (!person) { alert('등록자를 선택해주세요.'); return; }
+
+  var action = id ? 'updateSchedule' : 'addSchedule';
+  var payload = { action: action, date: date, type: type, person: person, title: title, memo: memo };
+  if (id) payload.id = Number(id);
+
+  var btn = document.querySelector('.sch-save');
+  btn.textContent = '저장 중...';
+  btn.disabled = true;
+
+  fetch(SCRIPT_URL, {
+    method: 'POST', body: JSON.stringify(payload),
+    headers: {'Content-Type':'application/json'}
+  }).then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.ok || res.id) {
+        clearSchForm();
+        loadSchedule();
+      } else {
+        alert('오류: ' + (res.error || '저장 실패'));
+      }
+    }).catch(function(e) { alert('네트워크 오류: ' + e.message); })
+    .finally(function() { btn.textContent = id ? '수정' : '등록'; btn.disabled = false; });
+}
+
+function editSchEvent(id) {
+  var ev = SCH_DATA.find(function(e) { return e.id === id; });
+  if (!ev) return;
+  document.getElementById('schEditId').value = id;
+  document.getElementById('schDate').value = ev.date;
+  document.getElementById('schType').value = ev.type || '일정';
+  document.getElementById('schPerson').value = ev.person || '';
+  document.getElementById('schTitle').value = ev.title || '';
+  document.getElementById('schMemo').value = ev.memo || '';
+  document.getElementById('schFormTitle').textContent = '일정 수정';
+  document.querySelector('.sch-save').textContent = '수정';
+  document.getElementById('schForm').scrollIntoView({behavior:'smooth'});
+}
+
+function deleteSchEvent(id) {
+  if (!confirm('이 일정을 삭제하시겠습니까?')) return;
+  fetch(SCRIPT_URL, {
+    method: 'POST', body: JSON.stringify({ action: 'deleteSchedule', id: id }),
+    headers: {'Content-Type':'application/json'}
+  }).then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.ok) loadSchedule();
+      else alert('삭제 실패: ' + (res.error || ''));
+    }).catch(function(e) { alert('네트워크 오류: ' + e.message); });
+}
+
+function clearSchForm() {
+  document.getElementById('schEditId').value = '';
+  document.getElementById('schDate').value = '';
+  document.getElementById('schType').value = '일정';
+  document.getElementById('schPerson').value = '';
+  document.getElementById('schTitle').value = '';
+  document.getElementById('schMemo').value = '';
+  document.getElementById('schFormTitle').textContent = '일정 등록';
+  document.querySelector('.sch-save').textContent = '등록';
+}
+
+// 오늘 날짜 기본값
+document.getElementById('schDate').value = new Date().toISOString().slice(0,10);
 
 loadSchedule();
 
