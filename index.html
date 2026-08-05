@@ -152,9 +152,7 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .wo-title{font-size:.85rem;font-weight:600;margin-bottom:4px;}
 .wo-meta{font-size:.7rem;color:var(--dim);display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .wo-status{font-size:.65rem;padding:2px 8px;border-radius:8px;margin-left:auto;flex-shrink:0;}
-.wo-status.pending{background:rgba(243,156,18,.12);color:var(--orange);}
-.wo-status.approved{background:rgba(79,140,255,.12);color:var(--accent);}
-.wo-status.progress{background:rgba(79,140,255,.12);color:var(--accent);}
+.wo-status.pending,.wo-status.approved,.wo-status.progress{background:rgba(79,140,255,.12);color:var(--accent);}
 .wo-status.done{background:rgba(39,174,96,.12);color:var(--green);}
 .wo-status.verified{background:rgba(0,0,0,.05);color:var(--dim);}
 .wo-actions{display:flex;gap:4px;margin-top:8px;}
@@ -166,43 +164,11 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .assignee-chip{font-size:.62rem;background:rgba(79,140,255,.12);color:var(--accent);padding:1px 6px;border-radius:4px;}
 .empty-state{text-align:center;padding:40px;color:var(--dim);font-size:.85rem;}
 
-/* Plan Review */
-.plan-card{background:var(--card);border-radius:12px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden;transition:border-color .2s;}
-.plan-card:hover{border-color:var(--accent);}
-.plan-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;}
-.plan-header .arrow{font-size:.7rem;color:var(--dim);transition:transform .2s;flex-shrink:0;}
-.plan-card.open .plan-header .arrow{transform:rotate(90deg);}
-.plan-header-info{flex:1;min-width:0;}
-.plan-header-title{font-size:.88rem;font-weight:600;}
-.plan-header-sub{font-size:.72rem;color:var(--dim);margin-top:2px;}
-.plan-status-badge{font-size:.65rem;padding:3px 10px;border-radius:10px;font-weight:600;flex-shrink:0;}
-.plan-status-badge.pending-review{background:rgba(255,169,77,.15);color:var(--orange);}
-.plan-status-badge.approved{background:rgba(81,207,102,.15);color:var(--green);}
-.plan-status-badge.revision{background:rgba(255,107,107,.15);color:var(--warn);}
-.plan-body{display:none;padding:0 20px 20px;border-top:1px solid var(--border);}
-.plan-card.open .plan-body{display:block;}
-.plan-summary{font-size:.8rem;line-height:1.7;color:var(--text);margin:14px 0;}
-.plan-summary ul{list-style:none;padding:0;}
-.plan-summary li{padding:4px 0 4px 16px;position:relative;}
-.plan-summary li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
-.plan-summary li.urgent::before{background:var(--warn);}
-.plan-actions{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:12px;}
-.plan-actions label{font-size:.72rem;color:var(--dim);display:block;margin-bottom:4px;}
-.plan-actions select{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-size:.78rem;}
-.plan-actions textarea{background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 12px;font-size:.78rem;font-family:inherit;width:100%;resize:vertical;}
-.plan-feedback{margin-top:12px;background:rgba(255,169,77,.06);border-left:3px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;}
-.plan-feedback.approved-fb{background:rgba(81,207,102,.06);border-left-color:var(--green);}
-.plan-feedback .fb-label{font-size:.68rem;font-weight:600;color:var(--orange);margin-bottom:4px;}
-.plan-feedback.approved-fb .fb-label{color:var(--green);}
-.plan-feedback .fb-text{font-size:.78rem;line-height:1.6;white-space:pre-wrap;}
-.plan-fb-date{font-size:.62rem;color:var(--dim);margin-top:4px;}
+/* Pipeline filter (reuses plan-filter class) */
 .plan-filter{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
 .plan-filter button{font-size:.72rem;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--dim);cursor:pointer;transition:all .15s;}
 .plan-filter button.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .plan-filter button:hover:not(.active){border-color:var(--accent);color:var(--text);}
-.plan-stats{display:flex;gap:16px;margin-bottom:16px;font-size:.78rem;}
-.plan-stats span{color:var(--dim);}
-.plan-stats .ct{font-weight:700;}
 
 /* Daily Report — Executive View */
 .dr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
@@ -454,7 +420,7 @@ function checkAuth(){
   <!-- Summary -->
   <div class="summary-bar">
     <div class="sum-card"><div class="num accent">3</div><div class="label">사업부</div></div>
-    <div class="sum-card"><div class="num green">13</div><div class="label">팀원</div></div>
+    <div class="sum-card"><div class="num green">28</div><div class="label">팀원</div></div>
     <div class="sum-card"><div class="num orange" id="sumIssues">0</div><div class="label">미해결 이슈</div></div>
     <div class="sum-card"><div class="num warn" id="sumOrders">0</div><div class="label">활성 업무</div></div>
   </div>
@@ -481,8 +447,8 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">5</div><div class="l">부서</div></div>
-          <div class="bu-stat"><div class="n">5</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n">6</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">9</div><div class="l">팀원</div></div>
           <div class="bu-stat"><div class="n" id="homeIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
@@ -496,8 +462,8 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">4</div><div class="l">부서</div></div>
-          <div class="bu-stat"><div class="n">4</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n">5</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">11</div><div class="l">팀원</div></div>
           <div class="bu-stat"><div class="n" id="statIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
@@ -511,8 +477,8 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">4</div><div class="l">부서</div></div>
-          <div class="bu-stat"><div class="n">4</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n">5</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">11</div><div class="l">팀원</div></div>
           <div class="bu-stat"><div class="n" id="mapIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
@@ -535,7 +501,7 @@ function checkAuth(){
 
     <!-- HOME -->
     <div class="team-section">
-      <div class="section-title">클래디 홈 Clady HOME &mdash; 대표팀장 1 + 6개 부서 8명</div>
+      <div class="section-title">클래디 홈 Clady HOME &mdash; 대표팀장 1 + 6개 부서 8명 (총 9명)</div>
       <div class="dept-label">대표팀장 Chief Lead</div>
       <div class="member-grid">
         <div class="member"><div class="avatar chief">CL</div><div class="member-info"><div class="member-name">태현 TaeHyun<span class="member-rank">대표팀장 Chief</span></div><div class="member-role">전 부서 보고 취합, 종합 리포트 Consolidated Report</div><div class="member-bu">HOME</div></div></div>
@@ -562,7 +528,7 @@ function checkAuth(){
 
     <!-- STAT -->
     <div class="team-section">
-      <div class="section-title">클래디 스탯 Clady STAT &mdash; 대표팀장 1 + 5개 부서 10명</div>
+      <div class="section-title">클래디 스탯 Clady STAT &mdash; 대표팀장 1 + 5개 부서 10명 (총 11명)</div>
       <div class="dept-label">대표팀장 Chief Lead</div>
       <div class="member-grid">
         <div class="member"><div class="avatar chief">CL</div><div class="member-info"><div class="member-name">지호 JiHo<span class="member-rank">대표팀장 Chief</span></div><div class="member-role">전 부서 보고 취합, 종합 리포트 Consolidated Report</div><div class="member-bu">STAT</div></div></div>
@@ -596,7 +562,7 @@ function checkAuth(){
 
     <!-- MAP -->
     <div class="team-section">
-      <div class="section-title">클래디 맵 Clady MAP &mdash; 대표팀장 1 + 5개 부서 11명</div>
+      <div class="section-title">클래디 맵 Clady MAP &mdash; 대표팀장 1 + 5개 부서 10명 (총 11명)</div>
       <div class="dept-label">대표팀장 Chief Lead</div>
       <div class="member-grid">
         <div class="member"><div class="avatar chief">CL</div><div class="member-info"><div class="member-name">서준 SeoJun<span class="member-rank">대표팀장 Chief</span></div><div class="member-role">전 부서 보고 취합, 종합 리포트 Consolidated Report</div><div class="member-bu">MAP</div></div></div>
@@ -803,11 +769,19 @@ function updateClock(){
 updateClock();setInterval(updateClock,60000);
 
 var NAMES={
-  seola:'설아',jaewon:'재원',harin:'하린',minseo:'민서',jian:'지안',
-  subin:'수빈',soyun:'소윤',hyunwoo:'현우',yuna:'유나',
-  haeun:'하은',jimin:'지민',woojin:'우진',nayeon:'나연',
+  // HOME
+  taehyun:'태현',seola:'설아',yerin:'예린',jaewon:'재원',seungho:'승호',
+  harin:'하린',minseo:'민서',jian:'지안',doyun:'도윤',
+  // STAT
+  jiho:'지호',subin:'수빈',yejun:'예준',rin:'린',soyun:'소윤',siwoo:'시우',
+  hyunwoo:'현우',chaewon:'채원',yuna:'유나',junhyuk:'준혁',yunha:'윤하',
+  // MAP
+  seojun:'서준',haeun:'하은',eunseo:'은서',jimin:'지민',daeun:'다은',
+  woojin:'우진',seohyun:'서현',junseo:'준서',nayeon:'나연',taemin:'태민',seongmin:'성민',
+  // Cross-BU
   sua:'수아',hayul:'하율'
 };
+var NAMES_REV={};for(var k in NAMES)NAMES_REV[NAMES[k]]=k;
 
 // --- Google Sheets Sync ---
 // ★★★ 배포 후 여기에 Apps Script URL을 붙여넣으세요 ★★★
@@ -825,13 +799,20 @@ function gsPost(data) {
   if (!SCRIPT_URL) return Promise.resolve(null);
   setSyncStatus('syncing', '동기화 중...');
   return fetch(SCRIPT_URL, {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
-  }).then(function() {
-    setSyncStatus('online', '동기화 완료 Synced');
-  }).catch(function() {
-    setSyncStatus('offline', '동기화 실패 Sync Failed');
+  }).then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.ok) {
+      setSyncStatus('online', '동기화 완료');
+    } else {
+      setSyncStatus('offline', '동기화 오류: ' + (res.error || ''));
+    }
+    return res;
+  }).catch(function(e) {
+    setSyncStatus('offline', '동기화 실패');
+    return null;
   });
 }
 
@@ -886,7 +867,7 @@ function addOrder(){
   var orders=getOrders();
   orders.push(order);
   saveOrders(orders);clearForm();renderOrders();
-  gsPost({action:'addOrder',id:order.id,assign:order.assign,prio:prio,title:title,detail:detail,status:'progress',created:order.created,updatedBy:'대표'});
+  gsPost({action:'addOrder',id:order.id,assign:order.assign,bu:bu,prio:prio,title:title,detail:detail,status:'progress',created:order.created,updatedBy:'대표'});
   sendTelegram('📋 <b>[업무 등록 — 즉시 작업]</b> '+bu.toUpperCase()+'\n'+title+(detail?'\n'+detail:''));
   alert('업무 등록 완료! 야간팀이 바로 작업합니다.');
 }
@@ -1016,7 +997,7 @@ function reorderTask(id){
     detail:detail,status:'progress',created:new Date().toISOString(),updatedBy:'대표'
   };
   orders=getOrders();orders.push(order);saveOrders(orders);renderOrders();
-  gsPost({action:'addOrder',id:order.id,assign:order.assign,prio:'urgent',title:order.title,detail:detail,status:'progress',created:order.created,updatedBy:'대표'});
+  gsPost({action:'addOrder',id:order.id,assign:order.assign,bu:order.bu,prio:'urgent',title:order.title,detail:detail,status:'progress',created:order.created,updatedBy:'대표'});
   sendTelegram('📋 <b>[추가지시]</b>\n'+detail);
   alert('추가지시 생성! 야간팀이 바로 작업합니다.');
 }
@@ -1348,8 +1329,7 @@ loadSchedule();
 // --- Daily Report — Executive View ---
 var DR_CACHE = {};
 var DR_CURRENT_DATE = null;
-var TG_BOT = '8808029826:AAFhDRtFKn2Z_qTq7K6tLIM2qQKgrO_amCU';
-var TG_CHAT = '8851174037';
+// 텔레그램 토큰은 GAS 서버에서만 관리 (보안)
 
 // Risk keywords for auto-classification
 var RISK_HIGH_KW = ['법적','개인정보','보안','데이터 유출','시스템 장애','0%','MVP 위험','MVP 일정','누출','악화'];
@@ -1369,10 +1349,8 @@ function classifyRisk(desc) {
 }
 
 function sendTelegram(msg) {
-  fetch('https://api.telegram.org/bot' + TG_BOT + '/sendMessage', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: TG_CHAT, text: msg, parse_mode: 'HTML' })
-  }).catch(function(){});
+  if (!SCRIPT_URL) return;
+  gsPost({ action: 'sendTelegram', text: msg });
 }
 
 function loadDailyReport(date) {
@@ -1644,7 +1622,7 @@ function drAction(action, idx, level) {
       detail: detail, status: 'progress', created: new Date().toISOString(), updatedBy: '대표'
     };
     var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
-    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'urgent',
+    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, bu: order.bu, prio: 'urgent',
              title: order.title, detail: detail, status: 'progress', created: order.created, updatedBy: '대표' });
     sendTelegram('📋 <b>[추가지시 — 즉시 작업]</b> ' + iss._buLabel + '\n' + detail);
     alert('추가지시 생성! 야간팀이 바로 작업합니다.');
@@ -1665,8 +1643,9 @@ function drMemberAction(action, name) {
   } else if (action === 'order') {
     var detail = prompt(name + '에게 추가 지시 (바로 작업):', '');
     if (!detail) return;
+    var nameKey = NAMES_REV[name] || name;
     var order = {
-      id: Date.now(), assign: [name], prio: 'normal',
+      id: Date.now(), assign: [nameKey], prio: 'normal',
       title: '[대표→' + name + '] 추가 지시',
       detail: detail, status: 'progress', created: new Date().toISOString(), updatedBy: '대표'
     };
@@ -1699,7 +1678,7 @@ function saveDrComment(bu, convertToOrder, markDone) {
       detail: text, status: 'progress', created: new Date().toISOString(), updatedBy: '대표'
     };
     var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
-    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, prio: 'urgent',
+    gsPost({ action: 'addOrder', id: order.id, assign: order.assign, bu: bu, prio: 'urgent',
              title: order.title, detail: text, status: 'progress', created: order.created, updatedBy: '대표' });
     sendTelegram('📋 <b>[추가지시 — 즉시 작업]</b> ' + bu.toUpperCase() + '\n' + text);
     alert('추가지시 생성! 야간팀이 바로 작업합니다.');
@@ -1789,14 +1768,14 @@ function inboxOrder(bu, desc) {
   if (!detail) return;
   markHandled(bu, desc);
   var buHeads = { HOME: ['seola'], STAT: ['subin'], MAP: ['haeun'] };
-  var order = { id: Date.now(), assign: buHeads[bu] || [bu.toLowerCase()], prio: 'urgent',
+  var order = { id: Date.now(), assign: buHeads[bu] || [bu.toLowerCase()], bu: bu.toLowerCase(), prio: 'urgent',
     title: '[대표 지시] ' + bu + ' — ' + desc.slice(0,30), detail: detail,
-    status: 'pending', created: new Date().toISOString() };
+    status: 'progress', created: new Date().toISOString(), updatedBy: '대표' };
   var orders = getOrders(); orders.push(order); saveOrders(orders); renderOrders();
-  gsPost({ action:'addOrder', id:order.id, assign:order.assign, prio:'urgent',
-    title:order.title, detail:detail, status:'pending', created:order.created, updatedBy:'대표' });
+  gsPost({ action:'addOrder', id:order.id, assign:order.assign, bu:order.bu, prio:'urgent',
+    title:order.title, detail:detail, status:'progress', created:order.created, updatedBy:'대표' });
   sendTelegram('📋 <b>[업무지시]</b> ' + bu + '\n' + detail);
-  alert('업무지시 생성 + 텔레그램 알림!');
+  alert('업무지시 생성! 야간팀이 바로 작업합니다.');
   renderCeoInbox();
 }
 function inboxHold(bu, desc) {
@@ -1828,28 +1807,33 @@ function renderMyOrders() {
   html += '<h4>내가 지시한 업무 현황 (' + tracked.length + '건)</h4>';
 
   tracked.sort(function(a,b) {
-    var so = {pending:0, progress:1, done:2};
-    return (so[a.status]||0) - (so[b.status]||0);
+    var so = {progress:0, done:1, verified:2};
+    var sa = (a.status==='pending'||a.status==='approved') ? 'progress' : a.status;
+    var sb = (b.status==='pending'||b.status==='approved') ? 'progress' : b.status;
+    return (so[sa]||0) - (so[sb]||0);
   });
 
   for (var i = 0; i < tracked.length; i++) {
     var o = tracked[i];
+    var st = (o.status==='pending'||o.status==='approved') ? 'progress' : o.status;
     var assignArr = Array.isArray(o.assign) ? o.assign : [o.assign];
     var assignNames = assignArr.map(function(a) { return NAMES[a] || a; }).join(', ');
     var d = new Date(o.created);
     var ds = (d.getMonth()+1) + '/' + d.getDate();
-    var statusKo = {pending:'대기',progress:'진행중',done:'완료'};
 
     html += '<div class="order-track">';
-    html += '<span class="ot-status ' + o.status + '">' + (statusKo[o.status] || o.status) + '</span>';
+    html += '<span class="ot-status ' + st + '">' + (STATUS_KO[st] || st) + '</span>';
     html += '<span class="ot-title">' + esc(o.title) + '</span>';
     html += '<span class="ot-assign">' + assignNames + '</span>';
     html += '<span class="ot-time">' + ds + '</span>';
 
-    if (o.status === 'pending') {
-      html += '<button class="btn-approve" style="font-size:.6rem;padding:2px 6px;" onclick="updateStatus(' + o.id + ',\'progress\')">시작</button>';
-    } else if (o.status === 'progress') {
-      html += '<button class="btn-done" style="font-size:.6rem;padding:2px 6px;" onclick="updateStatus(' + o.id + ',\'done\')">완료</button>';
+    if (st === 'done') {
+      html += '<button class="btn-approve" style="font-size:.6rem;padding:2px 6px;" onclick="updateStatus(' + o.id + ',\'verified\')">확인</button>';
+      html += '<button class="btn-done" style="font-size:.6rem;padding:2px 6px;" onclick="reorderTask(' + o.id + ')">추가지시</button>';
+    } else if (st === 'progress') {
+      html += '<span style="font-size:.6rem;color:var(--accent);">작업중</span>';
+    } else if (st === 'verified') {
+      html += '<span style="font-size:.6rem;color:var(--dim);">완료</span>';
     }
     html += '</div>';
   }
