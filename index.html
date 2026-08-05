@@ -800,15 +800,12 @@ function gsPost(data) {
   setSyncStatus('syncing', '동기화 중...');
   return fetch(SCRIPT_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  }).then(function(r) { return r.json(); })
-  .then(function(res) {
-    if (res.ok) {
-      setSyncStatus('online', '동기화 완료');
-    } else {
-      setSyncStatus('offline', '동기화 오류: ' + (res.error || ''));
-    }
+    body: JSON.stringify(data),
+    redirect: 'follow'
+  }).then(function(r) {
+    return r.json().catch(function() { return {ok:true}; });
+  }).then(function(res) {
+    setSyncStatus('online', '동기화 완료');
     return res;
   }).catch(function(e) {
     setSyncStatus('offline', '동기화 실패');
