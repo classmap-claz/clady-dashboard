@@ -6,27 +6,27 @@
 <title>Clady Company Dashboard</title>
 <style>
 /* Auth Gate */
-.auth-gate{position:fixed;inset:0;z-index:9999;background:#0f1419;display:flex;align-items:center;justify-content:center;}
-.auth-box{background:#1a1f2e;border:1px solid #2a3040;border-radius:16px;padding:40px;text-align:center;max-width:360px;width:90%;}
-.auth-box h2{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,#4f8cff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
-.auth-box .auth-sub{font-size:.75rem;color:#8899aa;margin-bottom:24px;}
-.auth-box input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #2a3040;background:#0f1419;color:#e8eaed;font-size:.9rem;outline:none;margin-bottom:12px;}
+.auth-gate{position:fixed;inset:0;z-index:9999;background:#f0f2f5;display:flex;align-items:center;justify-content:center;}
+.auth-box{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:40px;text-align:center;max-width:360px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.auth-box h2{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,#4f8cff,#00a884);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.auth-box .auth-sub{font-size:.75rem;color:#6c7a89;margin-bottom:24px;}
+.auth-box input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #e2e8f0;background:#f8f9fb;color:#1a1a2e;font-size:.9rem;outline:none;margin-bottom:12px;}
 .auth-box input:focus{border-color:#4f8cff;}
-.auth-box button{width:100%;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,#4f8cff,#00d4aa);color:#fff;font-weight:600;font-size:.85rem;cursor:pointer;}
+.auth-box button{width:100%;padding:10px;border:none;border-radius:8px;background:linear-gradient(135deg,#4f8cff,#00a884);color:#fff;font-weight:600;font-size:.85rem;cursor:pointer;}
 .auth-box button:hover{opacity:.9;}
-.auth-box .auth-err{color:#ff6b6b;font-size:.75rem;margin-top:8px;display:none;}
+.auth-box .auth-err{color:#e74c3c;font-size:.75rem;margin-top:8px;display:none;}
 :root {
-  --bg: #0f1419; --card: #1a1f2e; --card-hover: #222840;
-  --accent: #4f8cff; --accent2: #00d4aa; --warn: #ff6b6b;
-  --orange: #ffa94d; --text: #e8eaed; --dim: #8899aa;
-  --border: #2a3040; --green: #51cf66;
+  --bg: #f0f2f5; --card: #ffffff; --card-hover: #f5f7fa;
+  --accent: #4f8cff; --accent2: #00a884; --warn: #e74c3c;
+  --orange: #f39c12; --text: #1a1a2e; --dim: #6c7a89;
+  --border: #e2e8f0; --green: #27ae60;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
 /* Top Bar */
-.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(135deg,#1a1f2e,#0f1419);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
-.top-bar h1{font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.top-bar h1{font-size:1.2rem;font-weight:700;color:var(--text);}
 .top-bar .sub{font-size:0.7rem;color:var(--dim);margin-top:2px;}
 .top-bar .meta{font-size:0.75rem;color:var(--dim);}
 .sync-bar{display:flex;align-items:center;gap:6px;font-size:.7rem;color:var(--dim);}
@@ -45,14 +45,14 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 
 /* Summary */
 .summary-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:20px;}
-.sum-card{background:var(--card);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--border);}
+.sum-card{background:var(--card);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05);}
 .sum-card .num{font-size:1.8rem;font-weight:700;}
 .sum-card .label{font-size:0.7rem;color:var(--dim);margin-top:4px;line-height:1.4;}
 .num.accent{color:var(--accent);}.num.green{color:var(--green);}.num.warn{color:var(--warn);}.num.orange{color:var(--orange);}
 
 /* BU Cards */
 .bu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:24px;}
-.bu-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);transition:border-color .2s;}
+.bu-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);transition:border-color .2s;box-shadow:0 1px 3px rgba(0,0,0,.05);}
 .bu-card:hover{border-color:var(--accent);}
 .bu-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
 .bu-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:#fff;}
@@ -64,7 +64,7 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .bu-status.live{background:rgba(81,207,102,.15);color:var(--green);}
 .bu-status.planned{background:rgba(255,169,77,.15);color:var(--orange);}
 .bu-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
-.bu-stat{text-align:center;padding:8px;background:rgba(255,255,255,.03);border-radius:8px;}
+.bu-stat{text-align:center;padding:8px;background:rgba(0,0,0,.03);border-radius:8px;}
 .bu-stat .n{font-size:1.3rem;font-weight:700;color:var(--accent);}
 .bu-stat .l{font-size:0.62rem;color:var(--dim);margin-top:2px;line-height:1.4;}
 
@@ -95,9 +95,9 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .badge.critical{background:rgba(255,107,107,.15);color:var(--warn);}
 .badge.high{background:rgba(255,169,77,.15);color:var(--orange);}
 .badge.medium{background:rgba(79,140,255,.15);color:var(--accent);}
-.badge.low{background:rgba(255,255,255,.08);color:var(--dim);}
+.badge.low{background:rgba(0,0,0,.06);color:var(--dim);}
 .issue-list{list-style:none;}
-.issue-list li{font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:8px;}
+.issue-list li{font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:flex-start;gap:8px;}
 .issue-list li:last-child{border-bottom:none;}
 .sev{font-size:.6rem;padding:1px 5px;border-radius:4px;flex-shrink:0;margin-top:2px;}
 .sev.H{background:var(--warn);color:#fff;}.sev.M{background:var(--orange);color:#fff;}.sev.L{background:var(--dim);color:#fff;}
@@ -152,14 +152,16 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .wo-title{font-size:.85rem;font-weight:600;margin-bottom:4px;}
 .wo-meta{font-size:.7rem;color:var(--dim);display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .wo-status{font-size:.65rem;padding:2px 8px;border-radius:8px;margin-left:auto;flex-shrink:0;}
-.wo-status.pending{background:rgba(255,169,77,.15);color:var(--orange);}
-.wo-status.progress{background:rgba(79,140,255,.15);color:var(--accent);}
-.wo-status.done{background:rgba(81,207,102,.15);color:var(--green);}
+.wo-status.pending{background:rgba(243,156,18,.12);color:var(--orange);}
+.wo-status.approved{background:rgba(79,140,255,.12);color:var(--accent);}
+.wo-status.progress{background:rgba(79,140,255,.12);color:var(--accent);}
+.wo-status.done{background:rgba(39,174,96,.12);color:var(--green);}
+.wo-status.verified{background:rgba(0,0,0,.05);color:var(--dim);}
 .wo-actions{display:flex;gap:4px;margin-top:8px;}
 .prio-tag{font-size:.6rem;padding:1px 6px;border-radius:4px;}
 .prio-tag.urgent{background:rgba(255,107,107,.2);color:var(--warn);}
 .prio-tag.normal{background:rgba(79,140,255,.2);color:var(--accent);}
-.prio-tag.low{background:rgba(255,255,255,.08);color:var(--dim);}
+.prio-tag.low{background:rgba(0,0,0,.06);color:var(--dim);}
 .assignees-list{display:flex;flex-wrap:wrap;gap:3px;}
 .assignee-chip{font-size:.62rem;background:rgba(79,140,255,.12);color:var(--accent);padding:1px 6px;border-radius:4px;}
 .empty-state{text-align:center;padding:40px;color:var(--dim);font-size:.85rem;}
@@ -233,11 +235,11 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .risk-low .risk-count{background:rgba(81,207,102,.15);color:var(--green);}
 
 /* Issue row with actions */
-.dr-issue-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dr-issue-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);}
 .dr-issue-row:last-child{border-bottom:none;}
 .dr-issue-row .sev{flex-shrink:0;}
 .dr-issue-row .issue-text{flex:1;min-width:0;}
-.dr-issue-row .issue-bu{font-size:.6rem;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--dim);flex-shrink:0;}
+.dr-issue-row .issue-bu{font-size:.6rem;padding:1px 6px;border-radius:4px;background:rgba(0,0,0,.06);color:var(--dim);flex-shrink:0;}
 .dr-issue-row .issue-actions{display:flex;gap:4px;flex-shrink:0;}
 .dr-issue-row .issue-actions button{font-size:.65rem;padding:3px 8px;border-radius:5px;border:none;cursor:pointer;font-weight:500;}
 .btn-approve{background:var(--green);color:#fff;}.btn-approve:hover{opacity:.85;}
@@ -248,7 +250,7 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 /* Member work table */
 .dr-work-section{background:var(--card);border-radius:12px;padding:16px 20px;margin-bottom:12px;border:1px solid var(--border);}
 .dr-work-title{font-size:.8rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.dr-member-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dr-member-row{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06);}
 .dr-member-row:last-child{border-bottom:none;}
 .dr-member-row .m-name{font-weight:600;min-width:50px;}
 .dr-member-row .m-task{flex:1;color:var(--dim);}
@@ -259,12 +261,12 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 /* Expandable BU detail */
 .dr-sum-card{cursor:pointer;transition:all .2s;}
 .dr-sum-card:hover{border-color:var(--accent);}
-.dr-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);font-size:.75rem;color:var(--dim);line-height:1.6;}
+.dr-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06);font-size:.75rem;color:var(--dim);line-height:1.6;}
 .dr-detail.open{display:block;}
 .dr-detail .detail-section{margin-bottom:8px;}
 .dr-detail .detail-label{font-weight:700;color:var(--text);font-size:.72rem;margin-bottom:4px;}
 .dr-detail li{margin-left:12px;list-style:disc;margin-bottom:2px;}
-.dr-detail .detail-file{font-size:.68rem;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);display:inline-block;margin:1px 2px;}
+.dr-detail .detail-file{font-size:.68rem;padding:2px 6px;border-radius:3px;background:rgba(0,0,0,.06);display:inline-block;margin:1px 2px;}
 .dr-expand-hint{font-size:.6rem;color:var(--dim);margin-top:4px;text-align:right;}
 
 /* Comment box */
@@ -284,7 +286,7 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 /* My Orders tracker */
 .my-orders-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px;}
 .my-orders-box h4{font-size:.85rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:var(--accent);}
-.order-track{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.order-track{display:flex;align-items:center;gap:8px;font-size:.78rem;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);}
 .order-track:last-child{border-bottom:none;}
 .order-track .ot-status{font-size:.6rem;padding:2px 8px;border-radius:4px;flex-shrink:0;font-weight:600;min-width:52px;text-align:center;}
 .ot-status.pending{background:rgba(255,169,77,.15);color:var(--orange);}
@@ -320,7 +322,7 @@ body{font-family:-apple-system,'Pretendard',sans-serif;background:var(--bg);colo
 .cal-dot.vacation{background:var(--orange);}.cal-dot.holiday{background:var(--warn);}.cal-dot.event{background:var(--accent);}.cal-dot.deadline{background:var(--green);}
 .cal-events{background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--border);margin-bottom:16px;}
 .cal-events h4{font-size:.85rem;font-weight:700;margin-bottom:10px;}
-.cal-ev-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.8rem;}
+.cal-ev-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.8rem;}
 .cal-ev-item:last-child{border-bottom:none;}
 .cal-ev-type{font-size:.6rem;padding:2px 8px;border-radius:4px;font-weight:600;flex-shrink:0;min-width:40px;text-align:center;}
 .cal-ev-type.vacation{background:rgba(255,169,77,.15);color:var(--orange);}
@@ -451,20 +453,17 @@ function checkAuth(){
 
   <!-- Summary -->
   <div class="summary-bar">
-    <div class="sum-card"><div class="num accent">3</div><div class="label">사업부 Business Units</div></div>
-    <div class="sum-card"><div class="num green">34</div><div class="label">팀원 Team Members</div></div>
-    <div class="sum-card"><div class="num orange" id="sumIssues">0</div><div class="label">미해결 이슈 Open Issues</div></div>
-    <div class="sum-card"><div class="num warn" id="sumOrders">0</div><div class="label">대기 지시 Pending Orders</div></div>
+    <div class="sum-card"><div class="num accent">3</div><div class="label">사업부</div></div>
+    <div class="sum-card"><div class="num green">13</div><div class="label">팀원</div></div>
+    <div class="sum-card"><div class="num orange" id="sumIssues">0</div><div class="label">미해결 이슈</div></div>
+    <div class="sum-card"><div class="num warn" id="sumOrders">0</div><div class="label">활성 업무</div></div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" data-tab="overview">전체 현황<span class="ko">Overview</span></button>
-    <button class="tab" data-tab="team">조직 구성<span class="ko">Team</span></button>
-    <button class="tab" data-tab="reviews">점검 결과<span class="ko">Reviews</span></button>
-    <button class="tab" data-tab="report">종합 리포트<span class="ko">Report</span></button>
-    <button class="tab" data-tab="plans">계획 검토<span class="ko">Plan Review</span></button>
-    <button class="tab" data-tab="orders">업무 지시<span class="ko">Work Orders</span></button>
+    <button class="tab active" data-tab="overview">현황<span class="ko">Overview</span></button>
+    <button class="tab" data-tab="team">조직<span class="ko">Team</span></button>
+    <button class="tab" data-tab="orders">업무 관리<span class="ko">Tasks</span></button>
     <button class="tab" data-tab="calendar">일정<span class="ko">Calendar</span></button>
     <button class="tab" data-tab="daily">일일 보고<span class="ko">Daily Report</span></button>
   </div>
@@ -482,9 +481,9 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">6</div><div class="l">부서 Depts</div></div>
-          <div class="bu-stat"><div class="n">9</div><div class="l">팀원 Members</div></div>
-          <div class="bu-stat"><div class="n" id="homeIssues">0</div><div class="l">이슈 Issues</div></div>
+          <div class="bu-stat"><div class="n">5</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">5</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n" id="homeIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
       <div class="bu-card">
@@ -497,9 +496,9 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">5</div><div class="l">부서 Depts</div></div>
-          <div class="bu-stat"><div class="n">11</div><div class="l">팀원 Members</div></div>
-          <div class="bu-stat"><div class="n" id="statIssues">0</div><div class="l">이슈 Issues</div></div>
+          <div class="bu-stat"><div class="n">4</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">4</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n" id="statIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
       <div class="bu-card">
@@ -512,9 +511,9 @@ function checkAuth(){
           </div>
         </div>
         <div class="bu-stats">
-          <div class="bu-stat"><div class="n">5</div><div class="l">부서 Depts</div></div>
-          <div class="bu-stat"><div class="n">12</div><div class="l">팀원 Members</div></div>
-          <div class="bu-stat"><div class="n" id="mapIssues">0</div><div class="l">이슈 Issues</div></div>
+          <div class="bu-stat"><div class="n">4</div><div class="l">부서</div></div>
+          <div class="bu-stat"><div class="n">4</div><div class="l">팀원</div></div>
+          <div class="bu-stat"><div class="n" id="mapIssues">0</div><div class="l">이슈</div></div>
         </div>
       </div>
     </div>
@@ -630,248 +629,75 @@ function checkAuth(){
     </div>
   </div>
 
-  <!-- ===== REVIEWS ===== -->
-  <div class="tab-panel" id="tab-reviews">
-    <div class="section-title" style="margin-bottom:16px;">클래디 홈 HOME 부서별 점검 결과 &mdash; 2026-08-03</div>
-    <div class="review-grid">
-      <div class="review-card">
-        <h3><div class="avatar content" style="width:24px;height:24px;font-size:.6rem;">CA</div> 설아 &middot; 콘텐츠 Content</h3>
-        <div style="margin-bottom:8px;"><span class="badge critical">CRITICAL 3</span> <span class="badge medium">MEDIUM 4</span> <span class="badge low">LOW 3</span></div>
-        <ul class="issue-list">
-          <li><span class="sev H">H</span> M4 법적 정확도 부족 Legal accuracy</li>
-          <li><span class="sev H">H</span> 진단 결과 문구 불일관 Result inconsistency</li>
-          <li><span class="sev H">H</span> M4 퀴즈 Q3 복합 선택지 Compound option</li>
-          <li><span class="sev M">M</span> 관찰/추론 문항 혼재 Observable vs inferential</li>
-          <li><span class="sev M">M</span> 가이드 응급 프로토콜 부재 Emergency protocol</li>
-        </ul>
-        <div style="font-size:.7rem;color:var(--dim);margin-top:8px;">종합 Score: 7.5/10</div>
-      </div>
-      <div class="review-card">
-        <h3><div class="avatar qa" style="width:24px;height:24px;font-size:.6rem;">QA</div> 하린 &middot; QA 점검</h3>
-        <div style="margin-bottom:8px;"><span class="badge high">HIGH 2</span> <span class="badge medium">MEDIUM 3</span> <span class="badge low">LOW 8</span></div>
-        <ul class="issue-list">
-          <li><span class="sev H">H</span> 퀴즈 제출 레이스 컨디션 Race condition</li>
-          <li><span class="sev H">H</span> ?s= 파라미터 미검증 Param not validated</li>
-          <li><span class="sev M">M</span> 이중 리다이렉트 Dual redirect</li>
-          <li><span class="sev M">M</span> 설문 이중 제출 Survey double submit</li>
-        </ul>
-        <div style="font-size:.7rem;color:var(--dim);margin-top:8px;">통과 Pass: 14/17</div>
-      </div>
-      <div class="review-card">
-        <h3><div class="avatar ux" style="width:24px;height:24px;font-size:.6rem;">UX</div> 민서 &middot; UX 피드백</h3>
-        <div style="margin-bottom:8px;"><span class="badge critical">CRITICAL 4</span> <span class="badge high">HIGH 3</span> <span class="badge medium">MEDIUM 4</span></div>
-        <ul class="issue-list">
-          <li><span class="sev H">H</span> 모바일 척도 버튼 협소 Scale buttons cramped</li>
-          <li><span class="sev H">H</span> 교사/관리자 미지원 Teacher unsupported</li>
-          <li><span class="sev H">H</span> 이수증 가치 미전달 Cert value unclear</li>
-          <li><span class="sev H">H</span> 진입 마찰 Entry friction</li>
-          <li><span class="sev M">M</span> 프라이버시 문구 불일치 Privacy messaging</li>
-        </ul>
-        <div style="font-size:.7rem;color:var(--dim);margin-top:8px;">예상 효과 Est.: 이수율 +20%</div>
-      </div>
-      <div class="review-card">
-        <h3><div class="avatar dash" style="width:24px;height:24px;font-size:.6rem;">DB</div> 도윤 &middot; 대시보드 Dashboard</h3>
-        <div style="margin-bottom:8px;"><span class="badge high">HIGH 2</span> <span class="badge medium">MEDIUM 5</span> <span class="badge low">LOW 4</span></div>
-        <ul class="issue-list">
-          <li><span class="sev H">H</span> 이수증 수 이중 소스 Cert dual source</li>
-          <li><span class="sev H">H</span> 퍼널 100% 초과 Funnel &gt; 100%</li>
-          <li><span class="sev M">M</span> 반 정렬 알파벳순 Sort not numerical</li>
-          <li><span class="sev M">M</span> 터치 툴팁 미작동 Touch tooltip</li>
-        </ul>
-        <div style="font-size:.7rem;color:var(--dim);margin-top:8px;">파일럿 준비 Pilot-ready</div>
-      </div>
-    </div>
 
-    <div class="section-title" style="margin-top:24px;margin-bottom:16px;">클래디 스탯 STAT 부서별 점검 결과</div>
-    <div class="review-grid">
-      <div class="review-card" style="opacity:.6;">
-        <h3>점검 대기 Review Pending</h3>
-        <p style="font-size:.8rem;color:var(--dim);padding:12px 0;">아직 스탯 사업부 점검이 실행되지 않았습니다.<br>STAT review has not been run yet.</p>
-      </div>
-    </div>
-
-    <div class="section-title" style="margin-top:24px;margin-bottom:16px;">클래디 맵 MAP 부서별 점검 결과</div>
-    <div class="review-grid">
-      <div class="review-card" style="opacity:.6;">
-        <h3>점검 대기 Review Pending</h3>
-        <p style="font-size:.8rem;color:var(--dim);padding:12px 0;">아직 맵 사업부 점검이 실행되지 않았습니다.<br>MAP review has not been run yet.<br><br>SAFE 57파일, CARE 103폴더 점검 대기 중.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== REPORT (Chief Lead) ===== -->
-  <div class="tab-panel" id="tab-report">
-
-    <!-- HOME Report by TaeHyun -->
-    <div class="report-card">
-      <div class="chief-header">
-        <div class="avatar chief" style="width:44px;height:44px;font-size:.9rem;">CL</div>
-        <div>
-          <div style="font-size:1rem;font-weight:700;">태현 TaeHyun &middot; HOME 대표팀장 Chief Lead</div>
-          <div style="font-size:.72rem;color:var(--dim);">종합 리포트 Consolidated Report &middot; 2026-08-03</div>
-        </div>
-      </div>
-
-      <div class="report-section">
-        <h4>1. 각 부서 핵심 발견사항 요약 Key Findings Summary</h4>
-        <ul>
-          <li><b>콘텐츠(설아):</b> M4 법적 정확도가 가장 시급. 학폭예방법 제17조 자체해결 요건 미반영. 진단 결과 문구 톤 불일관.</li>
-          <li><b>QA(하린):</b> 퀴즈 제출 레이스 컨디션으로 Firebase 중복 기록 가능. URL 파라미터 길이 검증 미비.</li>
-          <li><b>UX(민서):</b> 모바일 375px에서 척도 버튼 4열이 협소(텍스트 잘림). 이수증 가치가 초반에 전달되지 않아 동기부여 부족.</li>
-          <li><b>대시보드(도윤):</b> certCount 이중 소스(Math.max) 문제로 퍼널 전환율이 100% 초과할 수 있음.</li>
-        </ul>
-      </div>
-
-      <div class="report-section">
-        <h4>2. 대표팀장 의견 Chief Lead Opinion</h4>
-        <div class="opinion-box">
-          <b>전반적으로 MVP 품질은 양호합니다(7.5/10).</b> 그러나 파일럿 학교 배포 전에 반드시 해결할 이슈가 3개 있습니다.<br><br>
-          <b>첫째</b>, M4 법적 서술은 교육심리 전문가(대표) 감수 없이 배포하면 안 됩니다. 자체해결 요건의 "피해측 명시적 동의" 누락은 실제 학부모 혼란을 초래할 수 있습니다.<br>
-          <b>둘째</b>, 퀴즈 레이스 컨디션은 단순 버그지만 데이터 무결성에 직결됩니다. 버튼 disabled 처리 한 줄로 해결 가능하므로 즉시 수정 권장합니다.<br>
-          <b>셋째</b>, 모바일 척도 버튼 협소 문제는 5개 페이지에 걸쳐 있어 이수율에 직접 영향을 줍니다. CSS 한 곳(style.css)만 고치면 전부 해결됩니다.<br><br>
-          나머지 이슈(이수증 가치 전달, 프라이버시 문구 통일, 대시보드 정렬 등)는 파일럿 진행하면서 순차적으로 개선해도 무방합니다.
-        </div>
-      </div>
-
-      <div class="report-section">
-        <h4>3. 개선 로드맵 Improvement Roadmap</h4>
-        <ul>
-          <li class="li-urgent"><b>즉시 수정 Immediate (1일)</b> &mdash; 퀴즈 버튼 disabled 처리, ?s= 파라미터 길이 제한, certCount 단일 소스 전환</li>
-          <li class="li-urgent"><b>즉시 수정 Immediate (1일)</b> &mdash; style.css 척도 버튼 모바일 2열 전환 (5개 페이지 동시 해결)</li>
-          <li class="li-short"><b>단기 개선 Short-term (1주)</b> &mdash; M4 법적 서술 대표 감수 + 수정, 진단 결과 문구 통일, 가이드 응급 프로토콜 추가</li>
-          <li class="li-short"><b>단기 개선 Short-term (1주)</b> &mdash; 이수증 가치 조기 전달(main.html 영웅 메시지), 프라이버시 문구 5페이지 통일</li>
-          <li class="li-mid"><b>중기 과제 Mid-term (2~4주)</b> &mdash; 대시보드 모바일 반응형 CSS, 반 정렬 숫자순, 인쇄 페이지 구분</li>
-          <li class="li-mid"><b>중기 과제 Mid-term (2~4주)</b> &mdash; 교사 역할 접근(teacher dashboard stub), 설문 시간 표기 수정</li>
-        </ul>
-      </div>
-
-      <div class="report-section">
-        <h4>4. 다음 점검 중점 사항 Next Review Focus</h4>
-        <ul>
-          <li>즉시 수정 항목 반영 확인 (레이스 컨디션, 척도 버튼, certCount)</li>
-          <li>M4 법적 서술 대표 감수 완료 여부</li>
-          <li>실제 모바일 기기(iPhone SE, Galaxy A) 테스트 결과</li>
-          <li>파일럿 학교 데이터 유입 후 대시보드 정상 동작 확인</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- STAT Report by JiHo -->
-    <div class="report-card" style="opacity:.6;">
-      <div class="chief-header">
-        <div class="avatar chief" style="width:44px;height:44px;font-size:.9rem;">CL</div>
-        <div>
-          <div style="font-size:1rem;font-weight:700;">지호 JiHo &middot; STAT 대표팀장 Chief Lead</div>
-          <div style="font-size:.72rem;color:var(--dim);">점검 대기 Review Pending</div>
-        </div>
-      </div>
-      <p style="font-size:.8rem;color:var(--dim);padding:16px 0;">아직 스탯 사업부 점검이 실행되지 않았습니다. 업무 지시 탭에서 점검을 요청하세요.<br>STAT review not yet initiated.</p>
-    </div>
-
-    <!-- MAP Report by SeoJun -->
-    <div class="report-card" style="opacity:.6;">
-      <div class="chief-header">
-        <div class="avatar chief" style="width:44px;height:44px;font-size:.9rem;">CL</div>
-        <div>
-          <div style="font-size:1rem;font-weight:700;">서준 SeoJun &middot; MAP 대표팀장 Chief Lead</div>
-          <div style="font-size:.72rem;color:var(--dim);">점검 대기 Review Pending</div>
-        </div>
-      </div>
-      <p style="font-size:.8rem;color:var(--dim);padding:16px 0;">아직 맵 사업부 점검이 실행되지 않았습니다. SAFE 57파일, CARE 103폴더 점검을 요청하세요.<br>MAP review not yet initiated. SAFE (57 files) + CARE (103 dirs) awaiting review.</p>
-    </div>
-  </div>
-
-  <!-- ===== PLAN REVIEW ===== -->
-  <div class="tab-panel" id="tab-plans">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
-      <h3 style="font-size:.95rem;font-weight:700;">부서별 업무 계획서 검토 Department Work Plan Review</h3>
-      <div class="plan-stats" id="planStats"></div>
-    </div>
-    <div class="plan-filter" id="planFilter">
-      <button class="active" data-f="all">전체 All</button>
-      <button data-f="pending-review">검토 전 Pending</button>
-      <button data-f="approved">승인 Approved</button>
-      <button data-f="revision">수정 요청 Revision</button>
-      <button data-f="home">HOME</button>
-      <button data-f="stat">STAT</button>
-      <button data-f="map">MAP</button>
-    </div>
-    <div id="planList"></div>
-  </div>
-
-  <!-- ===== WORK ORDERS ===== -->
+  <!-- ===== TASK MANAGEMENT (Unified Pipeline) ===== -->
   <div class="tab-panel" id="tab-orders">
+    <!-- Pipeline Stats -->
+    <div class="summary-bar" id="pipelineStats" style="margin-bottom:16px;"></div>
+    <!-- Pipeline Filter -->
+    <div class="plan-filter" id="pipeFilter" style="margin-bottom:16px;">
+      <button class="active" data-pf="all">전체</button>
+      <button data-pf="pending">승인대기</button>
+      <button data-pf="approved">승인됨</button>
+      <button data-pf="progress">진행중</button>
+      <button data-pf="done">완료대기</button>
+      <button data-pf="verified">확인됨</button>
+    </div>
+    <!-- New Task Form -->
     <div class="wo-form">
-      <h3>새 업무 지시 New Work Order</h3>
+      <h3>새 업무 등록</h3>
       <div class="form-row">
         <div class="form-col">
-          <label>담당자 (복수 선택 가능) Assign to (multi-select)</label>
-          <div class="ms-wrap" id="msWrap">
-            <div class="ms-trigger" id="msTrigger" onclick="toggleDropdown()">
-              <span class="ms-placeholder" id="msPlaceholder">-- 클릭하여 선택 Click to select --</span>
-            </div>
-            <div class="ms-dropdown" id="msDropdown">
-              <div class="ms-group">총괄 직속 Cross-BU Staff</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_sua" value="sua" onchange="updateTags()"><label for="cb_sua">수아 SuA (법률/컴플라이언스 Legal)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_hayul" value="hayul" onchange="updateTags()"><label for="cb_hayul">하율 HaYul (통합 브랜딩 Branding)</label></div>
-              <div class="ms-group">클래디 홈 HOME &mdash; 대표팀장</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_taehyun" value="taehyun" onchange="updateTags()"><label for="cb_taehyun">태현 TaeHyun (대표팀장 Chief)</label></div>
-              <div class="ms-group">클래디 홈 HOME &mdash; 팀장</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_seola" value="seola" onchange="updateTags()"><label for="cb_seola">설아 SeolA (콘텐츠 Content)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_yerin" value="yerin" onchange="updateTags()"><label for="cb_yerin">예린 YeRin (콘텐츠 Content)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_jaewon" value="jaewon" onchange="updateTags()"><label for="cb_jaewon">재원 JaeWon (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_seungho" value="seungho" onchange="updateTags()"><label for="cb_seungho">승호 SeungHo (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_harin" value="harin" onchange="updateTags()"><label for="cb_harin">하린 HaRin (QA)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_minseo" value="minseo" onchange="updateTags()"><label for="cb_minseo">민서 MinSeo (UX)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_jian" value="jian" onchange="updateTags()"><label for="cb_jian">지안 JiAn (마케팅 Marketing)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_doyun" value="doyun" onchange="updateTags()"><label for="cb_doyun">도윤 DoYun (대시보드 Dashboard)</label></div>
-              <div class="ms-group">클래디 스탯 STAT &mdash; 대표팀장</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_jiho" value="jiho" onchange="updateTags()"><label for="cb_jiho">지호 JiHo (대표팀장 Chief)</label></div>
-              <div class="ms-group">클래디 스탯 STAT &mdash; 팀원</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_subin" value="subin" onchange="updateTags()"><label for="cb_subin">수빈 SuBin (데이터 Data)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_yejun" value="yejun" onchange="updateTags()"><label for="cb_yejun">예준 YeJun (데이터 Data)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_soyun" value="soyun" onchange="updateTags()"><label for="cb_soyun">소윤 SoYun (UX 점검)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_siwoo" value="siwoo" onchange="updateTags()"><label for="cb_siwoo">시우 SiWoo (UX 점검)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_hyunwoo" value="hyunwoo" onchange="updateTags()"><label for="cb_hyunwoo">현우 HyunWoo (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_chaewon" value="chaewon" onchange="updateTags()"><label for="cb_chaewon">채원 ChaeWon (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_yuna" value="yuna" onchange="updateTags()"><label for="cb_yuna">유나 YuNa (홍보 PR)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_junhyuk" value="junhyuk" onchange="updateTags()"><label for="cb_junhyuk">준혁 JunHyuk (홍보 PR)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_rin" value="rin" onchange="updateTags()"><label for="cb_rin">린 Rin (다국어 QC i18n)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_yunha" value="yunha" onchange="updateTags()"><label for="cb_yunha">윤하 YunHa (QA 점검)</label></div>
-              <div class="ms-group">클래디 맵 MAP &mdash; 대표팀장</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_seojun" value="seojun" onchange="updateTags()"><label for="cb_seojun">서준 SeoJun (대표팀장 Chief)</label></div>
-              <div class="ms-group">클래디 맵 MAP &mdash; 팀원</div>
-              <div class="ms-opt"><input type="checkbox" id="cb_haeun" value="haeun" onchange="updateTags()"><label for="cb_haeun">하은 HaEun (SAFE 콘텐츠)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_eunseo" value="eunseo" onchange="updateTags()"><label for="cb_eunseo">은서 EunSeo (SAFE 콘텐츠)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_jimin" value="jimin" onchange="updateTags()"><label for="cb_jimin">지민 JiMin (CARE 콘텐츠)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_daeun" value="daeun" onchange="updateTags()"><label for="cb_daeun">다은 DaEun (CARE 콘텐츠)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_woojin" value="woojin" onchange="updateTags()"><label for="cb_woojin">우진 WooJin (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_seohyun" value="seohyun" onchange="updateTags()"><label for="cb_seohyun">서현 SeoHyun (개발 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_nayeon" value="nayeon" onchange="updateTags()"><label for="cb_nayeon">나연 NaYeon (홍보 PR)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_taemin" value="taemin" onchange="updateTags()"><label for="cb_taemin">태민 TaeMin (홍보 PR)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_junseo" value="junseo" onchange="updateTags()"><label for="cb_junseo">준서 JunSeo (GROW 전담 Dev)</label></div>
-              <div class="ms-opt"><input type="checkbox" id="cb_seongmin" value="seongmin" onchange="updateTags()"><label for="cb_seongmin">성민 SeongMin (QA 점검)</label></div>
-            </div>
-          </div>
+          <label>사업부</label>
+          <select id="woBu">
+            <option value="home">HOME</option>
+            <option value="stat">STAT</option>
+            <option value="map">MAP</option>
+          </select>
         </div>
         <div class="form-col">
-          <label>우선순위 Priority</label>
+          <label>담당자</label>
+          <select id="woAssign">
+            <option value="">자동 배정</option>
+            <optgroup label="HOME">
+              <option value="seola">설아 (콘텐츠)</option>
+              <option value="jaewon">재원 (개발)</option>
+              <option value="harin">하린 (QA)</option>
+              <option value="minseo">민서 (UX)</option>
+              <option value="jian">지안 (마케팅)</option>
+            </optgroup>
+            <optgroup label="STAT">
+              <option value="subin">수빈 (데이터)</option>
+              <option value="soyun">소윤 (UX)</option>
+              <option value="hyunwoo">현우 (개발)</option>
+              <option value="yuna">유나 (홍보)</option>
+            </optgroup>
+            <optgroup label="MAP">
+              <option value="haeun">하은 (SAFE)</option>
+              <option value="jimin">지민 (CARE)</option>
+              <option value="woojin">우진 (개발)</option>
+              <option value="nayeon">나연 (홍보)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-col">
+          <label>우선순위</label>
           <select id="woPrio">
-            <option value="urgent">긴급 Urgent</option>
-            <option value="normal" selected>보통 Normal</option>
-            <option value="low">낮음 Low</option>
+            <option value="urgent">긴급</option>
+            <option value="normal" selected>보통</option>
+            <option value="low">낮음</option>
           </select>
         </div>
       </div>
       <div class="form-row">
-        <div class="form-col" style="flex:2;"><label>업무 내용 Task</label><input type="text" id="woTitle" placeholder="간단한 업무 설명 Brief task description"></div>
+        <div class="form-col" style="flex:2;"><label>업무 내용</label><input type="text" id="woTitle" placeholder="업무 설명"></div>
       </div>
       <div class="form-row">
-        <div class="form-col" style="flex:2;"><label>상세 내용 (선택) Details</label><textarea id="woDetail" rows="2" placeholder="추가 맥락이나 완료 기준 Additional context"></textarea></div>
+        <div class="form-col" style="flex:2;"><label>상세 (선택)</label><textarea id="woDetail" rows="2" placeholder="추가 맥락이나 완료 기준"></textarea></div>
       </div>
       <div style="display:flex;gap:8px;margin-top:8px;">
-        <button class="btn btn-primary" onclick="addOrder()">지시 생성 Create</button>
-        <button class="btn btn-ghost" onclick="clearForm()">초기화 Clear</button>
+        <button class="btn btn-primary" onclick="addOrder()">등록</button>
+        <button class="btn btn-ghost" onclick="clearForm()">초기화</button>
       </div>
     </div>
     <div id="orderList"></div>
@@ -978,59 +804,12 @@ function updateClock(){
 }
 updateClock();setInterval(updateClock,60000);
 
-// --- Multi-select ---
-var msOpen=false;
-function toggleDropdown(){
-  msOpen=!msOpen;
-  document.getElementById('msDropdown').classList.toggle('open',msOpen);
-}
-document.addEventListener('click',function(e){
-  if(!document.getElementById('msWrap').contains(e.target)){
-    msOpen=false;
-    document.getElementById('msDropdown').classList.remove('open');
-  }
-});
-
 var NAMES={
-  taehyun:'태현',seola:'설아',jaewon:'재원',harin:'하린',minseo:'민서',jian:'지안',doyun:'도윤',
-  jiho:'지호',subin:'수빈',yejun:'예준',soyun:'소윤',siwoo:'시우',hyunwoo:'현우',chaewon:'채원',yuna:'유나',junhyuk:'준혁',
-  seojun:'서준',haeun:'하은',eunseo:'은서',jimin:'지민',daeun:'다은',woojin:'우진',seohyun:'서현',nayeon:'나연',taemin:'태민',
-  yerin:'예린',seungho:'승호',yunha:'윤하',seongmin:'성민',sua:'수아',junseo:'준서',hayul:'하율',rin:'린'
+  seola:'설아',jaewon:'재원',harin:'하린',minseo:'민서',jian:'지안',
+  subin:'수빈',soyun:'소윤',hyunwoo:'현우',yuna:'유나',
+  haeun:'하은',jimin:'지민',woojin:'우진',nayeon:'나연',
+  sua:'수아',hayul:'하율'
 };
-var NAMES_EN={
-  taehyun:'TaeHyun',seola:'SeolA',jaewon:'JaeWon',harin:'HaRin',minseo:'MinSeo',jian:'JiAn',doyun:'DoYun',
-  jiho:'JiHo',subin:'SuBin',yejun:'YeJun',soyun:'SoYun',siwoo:'SiWoo',hyunwoo:'HyunWoo',chaewon:'ChaeWon',yuna:'YuNa',junhyuk:'JunHyuk',
-  seojun:'SeoJun',haeun:'HaEun',eunseo:'EunSeo',jimin:'JiMin',daeun:'DaEun',woojin:'WooJin',seohyun:'SeoHyun',nayeon:'NaYeon',taemin:'TaeMin',
-  yerin:'YeRin',seungho:'SeungHo',yunha:'YunHa',seongmin:'SeongMin',sua:'SuA',junseo:'JunSeo',hayul:'HaYul',rin:'Rin'
-};
-
-function getSelected(){
-  var sel=[];
-  document.querySelectorAll('#msDropdown input[type="checkbox"]:checked').forEach(function(cb){sel.push(cb.value);});
-  return sel;
-}
-
-function updateTags(){
-  var sel=getSelected();
-  var trigger=document.getElementById('msTrigger');
-  var ph=document.getElementById('msPlaceholder');
-  // Remove old tags
-  trigger.querySelectorAll('.ms-tag').forEach(function(t){t.remove();});
-  if(!sel.length){ph.style.display='';return;}
-  ph.style.display='none';
-  sel.forEach(function(id){
-    var tag=document.createElement('span');
-    tag.className='ms-tag';
-    tag.innerHTML=NAMES[id]+' '+NAMES_EN[id]+' <span class="x" onclick="event.stopPropagation();uncheckPerson(\''+id+'\');">&times;</span>';
-    trigger.insertBefore(tag,ph);
-  });
-}
-
-function uncheckPerson(id){
-  var cb=document.getElementById('cb_'+id);
-  if(cb){cb.checked=false;}
-  updateTags();
-}
 
 // --- Google Sheets Sync ---
 // ★★★ 배포 후 여기에 Apps Script URL을 붙여넣으세요 ★★★
@@ -1085,16 +864,6 @@ function initSync() {
       saveOrders(data.orders);
       renderOrders();
     }
-    if (data.reviews && Object.keys(data.reviews).length) {
-      var local = getPlanReviews();
-      for (var k in data.reviews) {
-        if (!local[k] || !local[k].feedback) {
-          local[k] = data.reviews[k];
-        }
-      }
-      savePlanReviews(local);
-      renderPlans();
-    }
   });
 }
 
@@ -1103,16 +872,19 @@ var STORAGE_KEY='clady_work_orders';
 function getOrders(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||[];}catch(e){return[];}}
 function saveOrders(list){localStorage.setItem(STORAGE_KEY,JSON.stringify(list));}
 
-var STATUS_KO={pending:'대기 Pending',progress:'진행 중 In Progress',done:'완료 Done'};
+var STATUS_KO={pending:'승인대기',approved:'승인됨',progress:'진행중',done:'완료대기',verified:'확인됨'};
+var STATUS_COLOR={pending:'orange',approved:'accent',progress:'accent',done:'green',verified:'dim'};
 var PRIO_KO={urgent:'긴급',normal:'보통',low:'낮음'};
 
 function addOrder(){
-  var assignees=getSelected();
+  var bu=document.getElementById('woBu').value;
+  var assignee=document.getElementById('woAssign').value;
   var prio=document.getElementById('woPrio').value;
   var title=document.getElementById('woTitle').value.trim();
   var detail=document.getElementById('woDetail').value.trim();
-  if(!assignees.length||!title){alert('담당자와 업무 내용을 입력하세요.\nSelect assignees and enter task.');return;}
-  var order={id:Date.now(),assign:assignees,prio:prio,title:title,detail:detail,status:'pending',created:new Date().toISOString()};
+  if(!title){alert('업무 내용을 입력하세요.');return;}
+  var assign=assignee?[assignee]:[];
+  var order={id:Date.now(),assign:assign,bu:bu,prio:prio,title:title,detail:detail,status:'pending',created:new Date().toISOString()};
   var orders=getOrders();
   orders.push(order);
   saveOrders(orders);clearForm();renderOrders();
@@ -1120,8 +892,8 @@ function addOrder(){
 }
 
 function clearForm(){
-  document.querySelectorAll('#msDropdown input[type="checkbox"]').forEach(function(cb){cb.checked=false;});
-  updateTags();
+  document.getElementById('woBu').value='home';
+  document.getElementById('woAssign').value='';
   document.getElementById('woPrio').value='normal';
   document.getElementById('woTitle').value='';
   document.getElementById('woDetail').value='';
@@ -1144,16 +916,33 @@ function deleteOrder(id){
 function renderOrders(){
   var orders=getOrders();
   var el=document.getElementById('orderList');
-  var pending=orders.filter(function(o){return o.status!=='done';}).length;
-  document.getElementById('sumOrders').textContent=pending;
+  var active=orders.filter(function(o){return o.status!=='verified';}).length;
+  document.getElementById('sumOrders').textContent=active;
 
-  if(!orders.length){
-    el.innerHTML='<div class="empty-state">아직 업무 지시가 없습니다.<br>No work orders yet.</div>';
+  // Pipeline stats
+  var counts={pending:0,approved:0,progress:0,done:0,verified:0};
+  orders.forEach(function(o){counts[o.status]=(counts[o.status]||0)+1;});
+  var statsEl=document.getElementById('pipelineStats');
+  if(statsEl) statsEl.innerHTML=
+    '<div class="sum-card"><div class="num orange">'+counts.pending+'</div><div class="label">승인대기</div></div>'+
+    '<div class="sum-card"><div class="num accent">'+counts.approved+'</div><div class="label">승인됨</div></div>'+
+    '<div class="sum-card"><div class="num accent">'+(counts.progress)+'</div><div class="label">진행중</div></div>'+
+    '<div class="sum-card"><div class="num green">'+counts.done+'</div><div class="label">완료대기</div></div>'+
+    '<div class="sum-card"><div class="num" style="color:var(--dim);">'+counts.verified+'</div><div class="label">확인됨</div></div>';
+
+  // Filter
+  var filtered=orders;
+  if(typeof PIPE_FILTER!=='undefined'&&PIPE_FILTER!=='all'){
+    filtered=orders.filter(function(o){return o.status===PIPE_FILTER;});
+  }
+
+  if(!filtered.length){
+    el.innerHTML='<div class="empty-state">해당 상태의 업무가 없습니다.</div>';
     return;
   }
 
-  var so={pending:0,progress:1,done:2};
-  orders.sort(function(a,b){
+  var so={pending:0,approved:1,progress:2,done:3,verified:4};
+  filtered.sort(function(a,b){
     var s=(so[a.status]||0)-(so[b.status]||0);
     if(s)return s;
     var p={urgent:0,normal:1,low:2};
@@ -1161,224 +950,65 @@ function renderOrders(){
   });
 
   var html='';
-  for(var i=0;i<orders.length;i++){
-    var o=orders[i];
+  for(var i=0;i<filtered.length;i++){
+    var o=filtered[i];
     var d=new Date(o.created);
-    var ds=(d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');
-    // Handle both old (string) and new (array) assign format
+    var ds=(d.getMonth()+1)+'/'+d.getDate();
     var assignArr=Array.isArray(o.assign)?o.assign:[o.assign];
+    var buLabel=(o.bu||'').toUpperCase();
     html+='<div class="wo-item">';
     html+='<div class="wo-prio '+o.prio+'"></div>';
     html+='<div class="wo-body">';
-    html+='<div class="wo-title">'+esc(o.title)+'</div>';
+    html+='<div class="wo-title">';
+    if(buLabel)html+='<span class="issue-bu" style="margin-right:6px;">'+buLabel+'</span>';
+    html+=esc(o.title)+'</div>';
     if(o.detail)html+='<div style="font-size:.75rem;color:var(--dim);margin-bottom:4px;">'+esc(o.detail)+'</div>';
+    if(o.evidence)html+='<div style="font-size:.75rem;color:var(--green);margin-bottom:4px;border-left:2px solid var(--green);padding-left:8px;">'+esc(o.evidence)+'</div>';
     html+='<div class="wo-meta">';
     html+='<div class="assignees-list">';
-    assignArr.forEach(function(a){html+='<span class="assignee-chip">'+(NAMES[a]||a)+' '+(NAMES_EN[a]||'')+'</span>';});
+    assignArr.forEach(function(a){if(a)html+='<span class="assignee-chip">'+(NAMES[a]||a)+'</span>';});
     html+='</div>';
     html+='<span class="prio-tag '+o.prio+'">'+(PRIO_KO[o.prio]||o.prio)+'</span>';
     html+='<span>'+ds+'</span>';
     html+='</div>';
     html+='<div class="wo-actions">';
-    if(o.status==='pending')html+='<button class="btn btn-sm btn-primary" onclick="updateStatus('+o.id+',\'progress\')">시작 Start</button>';
-    if(o.status==='progress')html+='<button class="btn btn-sm btn-primary" onclick="updateStatus('+o.id+',\'done\')">완료 Done</button>';
-    if(o.status==='done')html+='<button class="btn btn-sm btn-ghost" onclick="updateStatus('+o.id+',\'pending\')">재개 Reopen</button>';
-    html+='<button class="btn btn-sm btn-ghost" onclick="deleteOrder('+o.id+')">삭제 Del</button>';
+    if(o.status==='pending')html+='<button class="btn btn-sm" style="background:var(--green);color:#fff;" onclick="updateStatus('+o.id+',\'approved\')">승인</button><button class="btn btn-sm btn-ghost" onclick="deleteOrder('+o.id+')">반려</button>';
+    if(o.status==='approved')html+='<button class="btn btn-sm btn-primary" onclick="updateStatus('+o.id+',\'progress\')">시작</button>';
+    if(o.status==='progress'){
+      html+='<button class="btn btn-sm" style="background:var(--green);color:#fff;" onclick="completeWithEvidence('+o.id+')">완료+증거</button>';
+    }
+    if(o.status==='done')html+='<button class="btn btn-sm" style="background:var(--accent);color:#fff;" onclick="updateStatus('+o.id+',\'verified\')">확인</button><button class="btn btn-sm btn-ghost" onclick="updateStatus('+o.id+',\'progress\')">재작업</button>';
+    if(o.status==='verified')html+='<span style="font-size:.7rem;color:var(--dim);">완료</span>';
     html+='</div></div>';
-    html+='<span class="wo-status '+o.status+'">'+(STATUS_KO[o.status]||o.status)+'</span>';
+    html+='<span class="wo-status '+(o.status)+'">'+(STATUS_KO[o.status]||o.status)+'</span>';
     html+='</div>';
   }
   el.innerHTML=html;
 }
 
+function completeWithEvidence(id){
+  var evidence=prompt('완료 증거를 입력하세요 (어떤 작업을 했는지):');
+  if(!evidence)return;
+  var orders=getOrders();
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].id===id){orders[i].status='done';orders[i].evidence=evidence;orders[i].completedAt=new Date().toISOString();break;}
+  }
+  saveOrders(orders);renderOrders();
+  gsPost({action:'updateOrder',id:id,status:'done',evidence:evidence});
+}
+
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
-// --- Plan Review ---
-var PLAN_KEY='clady_plan_reviews';
-var PLANS=[
-  // === HOME (5명: 역할당 1명) ===
-  {id:'seola',bu:'home',buLabel:'HOME',name:'설아 SeolA',dept:'콘텐츠 설계 Content Design',
-   items:['[즉시] M4 법적 서술 — 학폭예방법 §17 자체해결 요건 반영 (대표 감수 필수)','[3일] 진단 3종 결과 문구 톤·구조 통일','[3일] M4 퀴즈 Q3 복합 선택지 → 단일 개념 분리','[1주] signs 비관찰 문항 재프레이밍','[1주] 가이드 응급 프로토콜(자해·자살 징후) 추가','[2주] 전체 톤 감수 — "임상적"→"지지적/따뜻" 통일']},
-  {id:'jaewon',bu:'home',buLabel:'HOME',name:'재원 JaeWon',dept:'개발 Development',
-   items:['[즉시] 퀴즈 버튼 disabled 처리 (레이스 컨디션)','[즉시] ?s= 파라미터 길이 제한 + certCount 단일 소스 전환','[1일] 모바일 척도 버튼 2열 전환 CSS','[2일] 설문 이중 제출 방지 + Firebase 리다이렉트 정리','[1~2주] 콘텐츠 수정사항 코드 반영']},
-  {id:'harin',bu:'home',buLabel:'HOME',name:'하린 HaRin',dept:'QA 점검 Quality Assurance',
-   items:['[수정 후] 즉시 수정 5개 항목 재검증','[3일] 모바일 실기기 테스트 (iPhone SE + Galaxy A)','[1주] Firebase 기록 데이터 무결성 점검','[2주] 접근성(a11y) 기초 점검 + 인쇄 레이아웃 테스트']},
-  {id:'minseo',bu:'home',buLabel:'HOME',name:'민서 MinSeo',dept:'UX 피드백 User Experience',
-   items:['[2일] 이수증 가치 조기 전달 시안','[3일] 진입 마찰 완화 — 프라이버시 안내, 체험 버튼 개선','[1주] 프라이버시 문구 5페이지 통일안','[2주] 대시보드 모바일 반응형 개선안']},
-  {id:'jian',bu:'home',buLabel:'HOME',name:'지안 JiAn',dept:'마케팅 Marketing',
-   items:['[3일] e알리미 메시지 초안 3종','[1주] 가정통신문 A4 템플릿 + 담임교사 독려 가이드','[2주] 인스타그램 카드뉴스 기획','[3주] 학부모→교사 연계 유도 전략']},
-  // === STAT (4명: 역할당 1명) ===
-  {id:'subin',bu:'stat',buLabel:'STAT',name:'수빈 SuBin',dept:'데이터 분석 Data Analytics',
-   items:['[1주] 미검증 파서 5종 샘플 수집','[2주] 파서 17종 APA 7th 정합성 전수 점검','[2주] 기술문(narrative) KO/EN/中 학술 정확성 점검','[3주] 테스트 커버리지 확장 + 전환율 분석']},
-  {id:'soyun',bu:'stat',buLabel:'STAT',name:'소윤 SoYun',dept:'UX 점검 UX Review',
-   items:['[1주] 메인 앱 사용 흐름 + 게이팅 경계 점검','[2주] 결제 흐름 UX 점검','[2주] QnA/가이드/블로그 가독성·CTA 점검','[3주] 다국어 전환 UX + 모바일 전수 점검']},
-  {id:'hyunwoo',bu:'stat',buLabel:'STAT',name:'현우 HyunWoo',dept:'개발 Development',
-   items:['[UX 후] 점검 결과 우선순위 반영','[2주] 미검증 파서 5종 테스트 코드 보강','[2주] 결제 취소 과거 기록 보정','[3주] sitemap 갱신 + JSON-LD 메타데이터 감사']},
-  {id:'yuna',bu:'stat',buLabel:'STAT',name:'유나 YuNa',dept:'홍보 마케팅 PR & Marketing',
-   items:['[1주] 블로그 카테고리 균형 분석 + 신규 3편 기획','[1주] 검색콘솔 색인 상태 점검','[2주] 대학원생 타깃 홍보 전략','[4주] 신규 블로그 3편 작성·발행']},
-  // === MAP (4명: 역할당 1명) ===
-  {id:'haeun',bu:'map',buLabel:'MAP',name:'하은 HaEun',dept:'SAFE 콘텐츠 SAFE Content',
-   items:['[2주] SAFE 57파일 전수 콘텐츠 점검','[2주] 4축(S·A·F·E) 학습목표 정합성 확인','[3주] 교실 프로젝션 + 모바일 점검','[4주] 개선 필요 파일 → 생성기 수정 요청']},
-  {id:'jimin',bu:'map',buLabel:'MAP',name:'지민 JiMin',dept:'CARE 콘텐츠 CARE Content',
-   items:['[2주] Activity 75 + Counseling 12 + Response 11파일 점검','[3주] KCI·국제 문헌 인용 유효성 점검','[4주] GROW AI 리포트 요건 정의서 작성']},
-  {id:'woojin',bu:'map',buLabel:'MAP',name:'우진 WooJin',dept:'개발 Development',
-   items:['[1주] 156파일 렌더링 테스트 + 생성기 코드 리뷰','[2주] SEAT 프로토타입 코드 분석','[3주] GROW 백엔드 아키텍처 설계 — Claude Sonnet API 연동','[4주] SEAT GA 구현 로드맵']},
-  {id:'nayeon',bu:'map',buLabel:'MAP',name:'나연 NaYeon',dept:'홍보 마케팅 PR & Marketing',
-   items:['[1주] 교사 무료 체험 안내 자료 + 시장검증 인포그래픽','[2주] 학교 도입 제안 패키지','[2주] 교사 커뮤니티 홍보 전략','[4주] SAFE/CARE 교실 적용 사례 콘텐츠']}
-];
-
-function getPlanReviews(){try{return JSON.parse(localStorage.getItem(PLAN_KEY))||{};}catch(e){return {};}}
-function savePlanReviews(obj){localStorage.setItem(PLAN_KEY,JSON.stringify(obj));}
-
-function renderPlans(){
-  var reviews=getPlanReviews();
-  var list=document.getElementById('planList');
-  var filter=document.querySelector('#planFilter button.active');
-  var f=filter?filter.dataset.f:'all';
-  var counts={total:PLANS.length,pending:0,approved:0,revision:0};
-  var html='';
-
-  for(var i=0;i<PLANS.length;i++){
-    var p=PLANS[i];
-    var r=reviews[p.id]||{};
-    var st=r.status||'pending-review';
-    if(st==='pending-review')counts.pending++;
-    else if(st==='approved')counts.approved++;
-    else if(st==='revision')counts.revision++;
-
-    // Filter
-    if(f!=='all'){
-      if(f==='home'||f==='stat'||f==='map'){if(p.bu!==f)continue;}
-      else{if(st!==f)continue;}
-    }
-
-    var stLabel={'pending-review':'검토 전 Pending','approved':'승인 Approved','revision':'수정 요청 Revision'};
-    html+='<div class="plan-card'+(r._open?' open':'')+'" data-pid="'+p.id+'">';
-    html+='<div class="plan-header" onclick="togglePlan(\''+p.id+'\')">';
-    html+='<div class="avatar '+(p.bu==='home'?'content':p.bu==='stat'?'data':'qa')+'" style="width:32px;height:32px;font-size:.65rem;">'+p.buLabel.charAt(0)+'</div>';
-    html+='<div class="plan-header-info">';
-    html+='<div class="plan-header-title">'+p.name+' &middot; '+p.dept+'</div>';
-    html+='<div class="plan-header-sub">'+p.buLabel+' &middot; '+p.items.length+'개 항목</div>';
-    html+='</div>';
-    html+='<span class="plan-status-badge '+st+'">'+(stLabel[st]||st)+'</span>';
-    html+='<span class="arrow">&#9654;</span>';
-    html+='</div>';
-
-    html+='<div class="plan-body">';
-    html+='<div class="plan-summary"><ul>';
-    for(var j=0;j<p.items.length;j++){
-      var isUrgent=p.items[j].indexOf('[즉시]')===0;
-      html+='<li'+(isUrgent?' class="urgent"':'')+'>'+esc(p.items[j])+'</li>';
-    }
-    html+='</ul></div>';
-
-    // Show existing feedback
-    if(r.feedback){
-      html+='<div class="plan-feedback'+(r.status==='approved'?' approved-fb':'')+'">';
-      html+='<div class="fb-label">'+(r.status==='approved'?'승인 의견 Approved':'수정 요청 Revision Request')+'</div>';
-      html+='<div class="fb-text">'+esc(r.feedback)+'</div>';
-      if(r.date)html+='<div class="plan-fb-date">'+r.date+'</div>';
-      html+='</div>';
-    }
-
-    // Actions
-    html+='<div class="plan-actions">';
-    html+='<div style="min-width:130px;"><label>결정 Decision</label>';
-    html+='<select id="ps_'+p.id+'" style="width:100%;">';
-    html+='<option value="pending-review"'+(st==='pending-review'?' selected':'')+'>검토 전 Pending</option>';
-    html+='<option value="approved"'+(st==='approved'?' selected':'')+'>승인 Approve</option>';
-    html+='<option value="revision"'+(st==='revision'?' selected':'')+'>수정 요청 Revision</option>';
-    html+='</select></div>';
-    html+='<div style="flex:1;min-width:200px;"><label>추가 지시 / 피드백 Feedback</label>';
-    html+='<textarea id="pf_'+p.id+'" rows="2" placeholder="의견이나 추가 지시를 입력하세요 Enter feedback...">'+(r.feedback?esc(r.feedback):'')+'</textarea></div>';
-    html+='<div style="align-self:flex-end;"><button class="btn btn-primary" onclick="savePlanReview(\''+p.id+'\')">저장 Save</button></div>';
-    html+='</div>';
-
-    html+='</div></div>';
-  }
-
-  if(!html)html='<div class="empty-state">필터에 해당하는 계획서가 없습니다.<br>No plans match filter.</div>';
-  list.innerHTML=html;
-
-  document.getElementById('planStats').innerHTML=
-    '<span>전체 Total: <span class="ct">'+counts.total+'</span></span>'+
-    '<span style="color:var(--orange);">검토 전: <span class="ct">'+counts.pending+'</span></span>'+
-    '<span style="color:var(--green);">승인: <span class="ct">'+counts.approved+'</span></span>'+
-    '<span style="color:var(--warn);">수정 요청: <span class="ct">'+counts.revision+'</span></span>';
-}
-
-function togglePlan(pid){
-  var reviews=getPlanReviews();
-  reviews[pid]=reviews[pid]||{};
-  reviews[pid]._open=!reviews[pid]._open;
-  savePlanReviews(reviews);
-  renderPlans();
-}
-
-function savePlanReview(pid){
-  var reviews=getPlanReviews();
-  var status=document.getElementById('ps_'+pid).value;
-  var feedback=document.getElementById('pf_'+pid).value.trim();
-  reviews[pid]=reviews[pid]||{};
-  reviews[pid].status=status;
-  reviews[pid].feedback=feedback;
-  reviews[pid].date=new Date().toLocaleString('ko-KR');
-  reviews[pid]._open=true;
-  savePlanReviews(reviews);
-  renderPlans();
-  gsPost({action:'saveReview',personId:pid,status:status,feedback:feedback,date:reviews[pid].date,reviewedBy:'대시보드'});
-}
-
-// Plan filter
-document.querySelectorAll('#planFilter button').forEach(function(btn){
+// --- Pipeline Filter ---
+var PIPE_FILTER = 'all';
+document.querySelectorAll('#pipeFilter button').forEach(function(btn){
   btn.addEventListener('click',function(){
-    document.querySelectorAll('#planFilter button').forEach(function(b){b.classList.remove('active');});
+    document.querySelectorAll('#pipeFilter button').forEach(function(b){b.classList.remove('active');});
     btn.classList.add('active');
-    renderPlans();
+    PIPE_FILTER = btn.dataset.pf;
+    renderOrders();
   });
 });
-
-renderPlans();
-
-// --- Issue counts ---
-(function(){
-  var h=10+13+11+11;
-  document.getElementById('homeIssues').textContent=h;
-  document.getElementById('sumIssues').textContent=h;
-})();
-
-// --- Seed work orders (run once, only in local mode) ---
-(function(){
-  if(SCRIPT_URL) return;  // Seeds come from Apps Script initSheets when connected
-  var SEED_KEY='clady_wo_seeded_v2';
-  if(localStorage.getItem(SEED_KEY))return;
-  var now=Date.now();
-  var plans=[
-    {assign:['seola'],prio:'urgent',title:'[HOME 콘텐츠] 업무 계획서 제출',detail:'M4 법적 서술, 진단 결과 문구 통일, 퀴즈 Q3 분리, 톤 감수 계획 수립 및 제출'},
-    {assign:['jaewon'],prio:'urgent',title:'[HOME 개발] 업무 계획서 제출',detail:'퀴즈 레이스컨디션, ?s= 검증, certCount 단일화, 모바일 CSS 등 수정 계획 수립 및 제출'},
-    {assign:['harin'],prio:'normal',title:'[HOME QA] 업무 계획서 제출',detail:'즉시수정 재검증, 모바일 실기기 테스트, 데이터 무결성, a11y 점검 계획 수립 및 제출'},
-    {assign:['minseo'],prio:'normal',title:'[HOME UX] 업무 계획서 제출',detail:'이수증 가치 전달, 진입 마찰 완화, 프라이버시 통일, 대시보드 반응형 계획 수립 및 제출'},
-    {assign:['jian'],prio:'normal',title:'[HOME 마케팅] 업무 계획서 제출',detail:'e알리미 메시지, 가정통신문, 담임교사 가이드, SNS 콘텐츠 계획 수립 및 제출'},
-    {assign:['doyun'],prio:'normal',title:'[HOME 대시보드] 업무 계획서 제출',detail:'certCount 단일화, 퍼널 정합성, 반 정렬, 인쇄 CSS, 교사 역할 접근 계획 수립 및 제출'},
-    {assign:['subin'],prio:'normal',title:'[STAT 데이터] 업무 계획서 제출',detail:'미검증 파서 5종 샘플 수집, APA 7th 전수 점검, 기술문 정확성, 사용자 데이터 분석 계획 수립 및 제출'},
-    {assign:['soyun'],prio:'normal',title:'[STAT UX] 업무 계획서 제출',detail:'메인 앱 흐름, 게이팅 UX, 결제 흐름, 다국어 전환, 모바일 점검 계획 수립 및 제출'},
-    {assign:['hyunwoo'],prio:'normal',title:'[STAT 개발] 업무 계획서 제출',detail:'UX 점검 결과 반영, 파서 테스트 보강, 결제 취소 보정, SEO 점검 계획 수립 및 제출'},
-    {assign:['yuna'],prio:'normal',title:'[STAT 홍보] 업무 계획서 제출',detail:'블로그 카테고리 균형, 신규 3편 기획, 검색콘솔 색인, 대학원생 홍보 계획 수립 및 제출'},
-    {assign:['haeun'],prio:'normal',title:'[MAP SAFE] 업무 계획서 제출',detail:'SAFE 57파일 전수 점검, 4축 학습목표, 교실 프로젝션/모바일 QA, 생성기 수정 요청 계획 수립 및 제출'},
-    {assign:['jimin'],prio:'normal',title:'[MAP CARE] 업무 계획서 제출',detail:'CARE 99파일 점검(A75+C12+R11), 근거자료 갱신, GROW 요건 정의, 프레이밍 점검 계획 수립 및 제출'},
-    {assign:['woojin'],prio:'normal',title:'[MAP 개발] 업무 계획서 제출',detail:'156파일 렌더링 테스트, 생성기 리뷰, SEAT 프로토타입, GROW 아키텍처 설계 계획 수립 및 제출'},
-    {assign:['nayeon'],prio:'normal',title:'[MAP 홍보] 업무 계획서 제출',detail:'교사 무료체험 안내, 시장검증 홍보물, 학교 도입 제안, 커뮤니티 전략 계획 수립 및 제출'}
-  ];
-  var orders=getOrders();
-  for(var i=0;i<plans.length;i++){
-    plans[i].id=now+i;
-    plans[i].status='progress';
-    plans[i].created=new Date().toISOString();
-    orders.push(plans[i]);
-  }
-  saveOrders(orders);
-  localStorage.setItem(SEED_KEY,'1');
-})();
 
 renderOrders();
 
@@ -1844,7 +1474,7 @@ function renderDailyReport(rpt) {
         html += '<div style="padding:3px 0;display:flex;align-items:center;gap:6px;">';
         html += '<span style="font-weight:600;min-width:40px;">' + esc(mw2.name) + '</span>';
         html += '<span style="flex:1;">' + esc(mw2.task) + '</span>';
-        html += '<span style="font-size:.65rem;padding:1px 6px;border-radius:4px;color:' + stColor + ';background:rgba(255,255,255,.06);">' + stText + '</span>';
+        html += '<span style="font-size:.65rem;padding:1px 6px;border-radius:4px;color:' + stColor + ';background:rgba(0,0,0,.06);">' + stText + '</span>';
         html += '</div>';
       }
       html += '</div>';
